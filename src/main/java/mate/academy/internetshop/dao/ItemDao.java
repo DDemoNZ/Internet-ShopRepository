@@ -12,5 +12,5 @@ public interface ItemDao {
 
     Optional<Item> update(Item item);
 
-    void delete(Long id);
+    boolean delete(Long id);
 }

@@ -1,21 +1,13 @@
 package mate.academy.internetshop.model;
 
-import java.util.List;
-
-import mate.academy.internetshop.lib.IdGenerator;
-
 public class User {
 
     private String name;
     private Long userId;
-    private List<Order> orders;
     private Bucket bucket;
 
-    public User(String name, List<Order> orders, Bucket bucket) {
+    public User(String name) {
         this.name = name;
-        userId = IdGenerator.getUserId();
-        this.orders = orders;
-        this.bucket = bucket;
     }
 
     public String getName() {
@@ -34,19 +26,20 @@ public class User {
         this.userId = userId;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
     public Bucket getBucket() {
         return bucket;
     }
 
     public void setBucket(Bucket bucket) {
         this.bucket = bucket;
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "name='" + name + '\''
+                + ", userId=" + userId
+                + ", bucket=" + bucket
+                + '}';
     }
 }

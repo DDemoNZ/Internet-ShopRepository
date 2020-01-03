@@ -8,10 +8,10 @@ public interface UserDao {
 
     User add(User user);
 
-    Optional<User> get(Long id);
+    Optional<User> get(Long UserId);
 
     Optional<User> update(User user);
 
-    void delete(Long id);
+    boolean delete(Long UserId);
 
 }

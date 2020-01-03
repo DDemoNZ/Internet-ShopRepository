@@ -12,7 +12,7 @@ import mate.academy.internetshop.service.ItemService;
 public class ItemServiceImpl implements ItemService {
 
     @Dao
-    private ItemDao itemDao;
+    private static ItemDao itemDao;
 
     @Override
     public Item create(Item item) {

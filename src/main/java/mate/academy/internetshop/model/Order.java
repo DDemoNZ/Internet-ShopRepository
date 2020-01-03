@@ -2,8 +2,6 @@ package mate.academy.internetshop.model;
 
 import java.util.List;
 
-import mate.academy.internetshop.lib.IdGenerator;
-
 public class Order {
 
     private Long userId;
@@ -15,7 +13,6 @@ public class Order {
         this.items = items;
         this.allPrice = allPrice;
         this.userId = user.getUserId();
-        orderId = IdGenerator.getOrderId();
     }
 
     public Double getAllPrice() {
@@ -48,5 +45,15 @@ public class Order {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{"
+                + "userId=" + userId
+                + ", orderId=" + orderId
+                + ", items=" + items
+                + ", allPrice=" + allPrice
+                + '}';
     }
 }

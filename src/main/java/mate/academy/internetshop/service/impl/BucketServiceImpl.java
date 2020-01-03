@@ -15,9 +15,10 @@ import mate.academy.internetshop.service.BucketService;
 public class BucketServiceImpl implements BucketService {
 
     @Inject
-    private BucketDao bucketDao;
+    private static BucketDao bucketDao;
+
     @Inject
-    private ItemDao itemDao;
+    private static ItemDao itemDao;
 
     @Override
     public Bucket add(Bucket bucket) {
@@ -41,26 +42,30 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public void addItem(Bucket bucket, Item item) {
-        bucketDao.get(bucket.getBucketId()).get().getItems().add(item);
-        bucketDao.update(bucket);
+        Bucket newBucket = bucketDao.get(bucket.getBucketId()).get();
+        newBucket.getItems().add(item);
+        bucketDao.update(newBucket);
     }
 
     @Override
     public void deleteItem(Bucket bucket, Item item) {
-        bucketDao.get(bucket.getBucketId()).get().getItems().remove(item);
-        bucketDao.update(bucket);
+        Bucket newBucket = bucketDao.get(bucket.getBucketId()).get();
+        List<Item> itemOfBucket = newBucket.getItems();
+        itemOfBucket.remove(item);
+        bucketDao.update(newBucket);
     }
 
     @Override
     public void clear(Bucket bucket) {
-        Bucket clearedBucket = bucketDao.get(bucket.getBucketId()).get();
-        clearedBucket.getItems().clear();
-        bucketDao.update(bucket);
+        Bucket tempBucket = bucketDao.get(bucket.getBucketId()).get();
+        tempBucket.getItems().clear();
+        bucketDao.update(tempBucket);
     }
 
     @Override
-    public Optional<List<Item>> getAllItems(Bucket bucket) {
-        return Optional.ofNullable(bucketDao.get(bucket.getBucketId()).get().getItems());
+    public List<Item> getAllItems(Bucket bucket) {
+//        return Optional.ofNullable(bucketDao.get(bucket.getBucketId()).get().getItems());
+        return bucketDao.get(bucket.getBucketId()).get().getItems();
     }
 
 }

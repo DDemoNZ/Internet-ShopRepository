@@ -19,8 +19,8 @@ public interface BucketService {
 
     void deleteItem(Bucket bucket, Item item);
 
-    void clear(Bucket bucket); //remove all items from bucket
+    void clear(Bucket bucket);
 
-    Optional<List<Item>> getAllItems(Bucket bucket);
+    List<Item> getAllItems(Bucket bucket);
 
 }

@@ -22,6 +22,7 @@ public class AnnotatedClassMap {
         classMap.put(ItemDao.class, FactoryForAllDao.getUserDao());
         classMap.put(OrderDao.class, FactoryForAllDao.getUserDao());
         classMap.put(UserDao.class, FactoryForAllDao.getUserDao());
+
         classMap.put(UserService.class, FactoryForAllDao.getUserService());
         classMap.put(BucketService.class, FactoryForAllDao.getBucketService());
         classMap.put(ItemService.class, FactoryForAllDao.getItemService());

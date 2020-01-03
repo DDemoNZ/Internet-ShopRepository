@@ -1,8 +1,7 @@
 package mate.academy.internetshop.model;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import mate.academy.internetshop.lib.IdGenerator;
 
 public class Bucket {
 
@@ -10,10 +9,8 @@ public class Bucket {
     private Long userId;
     private Long bucketId;
 
-    public Bucket(List<Item> items, Long userId) {
-        this.items = items;
-        this.userId = userId;
-        bucketId = IdGenerator.getBucketId();
+    public Bucket() {
+        this.items = new ArrayList<>();
     }
 
     public Long getUserId() {
@@ -38,5 +35,14 @@ public class Bucket {
 
     public void setBucketId(Long bucketId) {
         this.bucketId = bucketId;
+    }
+
+    @Override
+    public String toString() {
+        return "Bucket{"
+                + "items=" + items
+                + ", userId=" + userId
+                + ", bucketId=" + bucketId
+                + '}';
     }
 }
