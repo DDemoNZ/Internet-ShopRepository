@@ -11,6 +11,7 @@ import mate.academy.internetshop.model.Order;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
+
     @Override
     public Order add(Order order) {
         order.setOrderId(IdGenerator.getOrderId());
@@ -30,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> update(Order order) {
+    public Order update(Order order) {
         Optional<Order> updatedOrderOptional = get(order.getOrderId());
         if (updatedOrderOptional.isPresent()) {
             Order updatedOrder = updatedOrderOptional.get();
@@ -38,9 +39,9 @@ public class OrderDaoImpl implements OrderDao {
             updatedOrder.setOrderId(order.getOrderId());
             updatedOrder.setUserId(order.getUserId());
             updatedOrder.setAllPrice(order.getAllPrice());
-            return Optional.of(updatedOrder);
+            return updatedOrder;
         }
-        return Optional.of(order);
+        return order;
     }
 
     @Override

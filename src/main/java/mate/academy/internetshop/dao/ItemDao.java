@@ -10,7 +10,7 @@ public interface ItemDao {
 
     Optional<Item> get(Long id);
 
-    Optional<Item> update(Item item);
+    Item update(Item item);
 
     boolean delete(Long id);
 }

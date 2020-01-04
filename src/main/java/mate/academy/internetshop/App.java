@@ -1,5 +1,8 @@
 package mate.academy.internetshop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Injector;
@@ -33,13 +36,41 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println("e");
-//        java.lang.ExceptionInInitializerError
-//        Caused by: java.lang.IllegalArgumentException:
-//        Can not set static mate.academy.internetshop.dao.BucketDao
-//         field mate.academy.internetshop.service.impl.BucketServiceImpl.bucketDao
-//         to mate.academy.internetshop.dao.impl.UserDaoImpl
-//        А вылетает в инжекторе почему-то
-//        Injector.java:39)
+        User user1 = new User("Name1");
+        User user2 = new User("Name2");
+        userService.create(user1);
+        userService.create(user2);
+
+        Bucket bucket1 = new Bucket(user1.getUserId());
+        bucketService.create(bucket1);
+
+        user1.setBucket(bucket1);
+
+        System.out.println(Storage.users);
+        System.out.println("___________________________________");
+
+        Item item1 = new Item("1", 1.0);
+        Item item2 = new Item("2", 2.0);
+        Item item3 = new Item("3", 3.0);
+        itemService.create(item1);
+        itemService.create(item2);
+        itemService.create(item3);
+        System.out.println(Storage.items);
+        System.out.println("___________________________________");
+
+        List<Item> items = new ArrayList<>();
+        items.add(item1);
+        items.add(item2);
+        System.out.println(items);
+        System.out.println("___________________________________");
+
+        bucketService.addItem(bucket1, item1);
+        bucketService.addItem(bucket1, item2);
+        System.out.println(bucketService.getAllItems(bucket1));
+        System.out.println(Storage.buckets);
+        System.out.println("___________________________________");
+
+        orderService.completeOrder(bucketService.getAllItems(bucket1), user1);
+        System.out.println(Storage.orders);
     }
 }

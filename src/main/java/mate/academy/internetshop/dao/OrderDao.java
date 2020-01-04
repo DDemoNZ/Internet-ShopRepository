@@ -10,7 +10,7 @@ public interface OrderDao {
 
     Optional<Order> get(Long id);
 
-    Optional<Order> update(Order order);
+    Order update(Order order);
 
     boolean delete(Long id);
 }

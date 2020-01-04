@@ -1,7 +1,5 @@
 package mate.academy.internetshop.lib;
 
-import mate.academy.internetshop.dao.UserDao;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -39,15 +37,6 @@ public class Injector {
         }
     }
 
-    /**
-     * Scans all classes accessible from the context class loader which
-     * belong to the given package and subpackages.
-     *
-     * @param packageName The base package
-     * @return The classes
-     * @throws ClassNotFoundException if the class cannot be located
-     * @throws IOException if I/O errors occur
-     */
     private static List<Class> getClasses(String packageName)
             throws IOException, ClassNotFoundException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -66,14 +55,6 @@ public class Injector {
         return classes;
     }
 
-    /**
-     * Recursive method used to find all classes in a given directory and subdirs.
-     *
-     * @param directory   The base directory
-     * @param packageName The package name for classes found inside the base directory
-     * @return The classes
-     * @throws ClassNotFoundException if the class cannot be located
-     */
     private static List<Class> findClasses(File directory, String packageName)
             throws ClassNotFoundException {
         List<Class> classes = new ArrayList<Class>();

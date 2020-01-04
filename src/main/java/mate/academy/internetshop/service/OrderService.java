@@ -12,9 +12,9 @@ public interface OrderService {
 
     Optional<Order> get(Long id);
 
-    Optional<Order> update(Order order);
+    Order update(Order order);
 
-    void delete(Long id);
+    boolean delete(Long id);
 
     Order completeOrder(List<Item> items, User user);
 

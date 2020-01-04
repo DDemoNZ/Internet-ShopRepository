@@ -20,32 +20,32 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> get(Long UserId) {
+    public Optional<User> get(Long userId) {
         return Optional.ofNullable(Storage.users
                 .stream()
-                .filter(user -> user.getUserId().equals(UserId))
+                .filter(user -> user.getUserId().equals(userId))
                 .findFirst()
                 .orElseThrow(()
                         -> new NoSuchElementException("Can't find user with id "
-                        + UserId)));
+                        + userId)));
     }
 
     @Override
-    public Optional<User> update(User user) {
+    public User update(User user) {
         Optional<User> updatedUserOptional = get(user.getUserId());
         if (updatedUserOptional.isPresent()) {
             User updatedUser = updatedUserOptional.get();
             updatedUser.setUserId(user.getUserId());
             updatedUser.setName(user.getName());
             updatedUser.setBucket(user.getBucket());
-            return Optional.of(updatedUser);
+            return updatedUser;
         }
-        return Optional.of(user);
+        return user;
     }
 
     @Override
-    public boolean delete(Long UserId) {
-        Optional<User> deletedUserOptional = get(UserId);
+    public boolean delete(Long userId) {
+        Optional<User> deletedUserOptional = get(userId);
         if (deletedUserOptional.isPresent()) {
             User deletedUser = deletedUserOptional.get();
             Storage.users.removeIf(user -> user.getUserId().equals(deletedUser.getUserId()));

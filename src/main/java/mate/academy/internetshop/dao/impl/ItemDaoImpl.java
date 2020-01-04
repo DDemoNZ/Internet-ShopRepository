@@ -30,16 +30,16 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Optional<Item> update(Item item) {
+    public Item update(Item item) {
         Optional<Item> updatedItemOptional = get(item.getItemId());
         if (updatedItemOptional.isPresent()) {
             Item updatedItem = updatedItemOptional.get();
             updatedItem.setPrice(item.getPrice());
             updatedItem.setItemId(item.getItemId());
             updatedItem.setName(item.getName());
-            return Optional.of(updatedItem);
+            return updatedItem;
         }
-        return Optional.of(item);
+        return item;
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
-import mate.academy.internetshop.lib.Dao;
+import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
@@ -16,7 +16,7 @@ import mate.academy.internetshop.service.OrderService;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Dao
+    @Inject
     private static OrderDao orderDao;
 
     @Override
@@ -30,13 +30,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> update(Order order) {
+    public Order update(Order order) {
         return orderDao.update(order);
     }
 
     @Override
-    public void delete(Long id) {
-        orderDao.delete(id);
+    public boolean delete(Long id) {
+        return orderDao.delete(id);
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface BucketDao {
 
     Optional<Bucket> get(Long bucketId);
 
-    Optional<Bucket> update(Bucket bucket);
+    Bucket update(Bucket bucket);
 
     boolean delete(Long bucketId);
 }

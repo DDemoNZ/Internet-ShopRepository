@@ -9,8 +9,8 @@ public interface ItemService {
 
     Optional<Item> get(Long id);
 
-    Optional<Item> update(Item item);
+    Item update(Item item);
 
-    void delete(Long id);
+    boolean delete(Long id);
 
 }

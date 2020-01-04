@@ -9,8 +9,8 @@ public interface UserService {
 
     Optional<User> get(Long userId);
 
-    Optional<User> update(User user);
+    User update(User user);
 
-    void delete(Long userId);
+    boolean delete(Long userId);
 
 }

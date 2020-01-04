@@ -30,16 +30,16 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public Optional<Bucket> update(Bucket bucket) {
+    public Bucket update(Bucket bucket) { //Нужен ли тут Optional?
         Optional<Bucket> updatedBucketOptional = get(bucket.getBucketId());
         if (updatedBucketOptional.isPresent()) {
             Bucket updatedBucket = updatedBucketOptional.get();
             updatedBucket.setUserId(bucket.getUserId());
             updatedBucket.setItems(bucket.getItems());
             updatedBucket.setBucketId(bucket.getBucketId());
-            return Optional.of(updatedBucket);
+            return updatedBucket;
         }
-        return Optional.of(bucket);
+        return bucket;
     }
 
     @Override

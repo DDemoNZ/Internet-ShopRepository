@@ -7,13 +7,13 @@ import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 
 public interface BucketService {
-    Bucket add(Bucket bucket);
+    Bucket create(Bucket bucket);
 
     Optional<Bucket> get(Long bucketId);
 
-    Optional<Bucket> update(Bucket bucket);
+    Bucket update(Bucket bucket);
 
-    void delete(Long id);
+    boolean delete(Long id);
 
     void addItem(Bucket bucket, Item item);
 

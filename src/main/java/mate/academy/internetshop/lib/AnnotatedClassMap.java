@@ -18,11 +18,10 @@ public class AnnotatedClassMap {
     private static final Map<Class, Object> classMap = new HashMap<>();
     
     static  {
-        classMap.put(BucketDao.class, FactoryForAllDao.getUserDao());
-        classMap.put(ItemDao.class, FactoryForAllDao.getUserDao());
-        classMap.put(OrderDao.class, FactoryForAllDao.getUserDao());
+        classMap.put(BucketDao.class, FactoryForAllDao.getBucketDao());
+        classMap.put(ItemDao.class, FactoryForAllDao.getItemDao());
+        classMap.put(OrderDao.class, FactoryForAllDao.getOrderDao());
         classMap.put(UserDao.class, FactoryForAllDao.getUserDao());
-
         classMap.put(UserService.class, FactoryForAllDao.getUserService());
         classMap.put(BucketService.class, FactoryForAllDao.getBucketService());
         classMap.put(ItemService.class, FactoryForAllDao.getItemService());
