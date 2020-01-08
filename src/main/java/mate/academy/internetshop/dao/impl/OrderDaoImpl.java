@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ import mate.academy.internetshop.model.Order;
 public class OrderDaoImpl implements OrderDao {
 
     @Override
-    public Order add(Order order) {
+    public Order create(Order order) {
         order.setOrderId(IdGenerator.getOrderId());
         Storage.orders.add(order);
         return order;
@@ -21,7 +22,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> get(Long id) {
-        return Optional.ofNullable(Storage.orders
+        return Optional.of(Storage.orders
                 .stream()
                 .filter(order -> order.getOrderId().equals(id))
                 .findFirst()
@@ -53,5 +54,10 @@ public class OrderDaoImpl implements OrderDao {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Order> getAll() {
+        return Storage.orders;
     }
 }

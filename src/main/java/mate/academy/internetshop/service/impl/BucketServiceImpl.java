@@ -22,7 +22,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket create(Bucket bucket) {
-        return bucketDao.add(bucket);
+        return bucketDao.create(bucket);
     }
 
     @Override

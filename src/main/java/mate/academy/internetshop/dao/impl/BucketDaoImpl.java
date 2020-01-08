@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ import mate.academy.internetshop.model.Bucket;
 public class BucketDaoImpl implements BucketDao {
 
     @Override
-    public Bucket add(Bucket bucket) {
+    public Bucket create(Bucket bucket) {
         bucket.setBucketId(IdGenerator.getBucketId());
         Storage.buckets.add(bucket);
         return bucket;
@@ -21,7 +22,7 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Optional<Bucket> get(Long bucketId) {
-        return Optional.ofNullable(Storage.buckets
+        return Optional.of(Storage.buckets
                 .stream()
                 .filter(bucket -> bucket.getBucketId().equals(bucketId))
                 .findFirst()
@@ -51,5 +52,10 @@ public class BucketDaoImpl implements BucketDao {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Bucket> getAll() {
+        return Storage.buckets;
     }
 }

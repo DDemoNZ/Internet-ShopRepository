@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Optional<Item> get(Long id) {
-        return Optional.ofNullable(Storage.items
+        return Optional.of(Storage.items
                 .stream()
                 .filter(item -> item.getItemId().equals(id))
                 .findFirst()
@@ -51,5 +52,10 @@ public class ItemDaoImpl implements ItemDao {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Item> getAll() {
+        return Storage.items;
     }
 }
