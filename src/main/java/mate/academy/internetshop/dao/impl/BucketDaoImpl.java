@@ -31,7 +31,7 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public Bucket update(Bucket bucket) { //Нужен ли тут Optional?
+    public Bucket update(Bucket bucket) {
         Optional<Bucket> updatedBucketOptional = get(bucket.getBucketId());
         if (updatedBucketOptional.isPresent()) {
             Bucket updatedBucket = updatedBucketOptional.get();
