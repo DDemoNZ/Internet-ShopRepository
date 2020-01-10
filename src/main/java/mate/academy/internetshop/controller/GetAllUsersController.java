@@ -13,14 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 
 public class GetAllUsersController extends HttpServlet {
 
-
-
     @Inject
     private static UserService userService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         List<User> users = userService.getAll();
-        req.getRequestDispatcher("/WEB-INF/views/AllUsers.jsp").forward(req, resp);
+        req.setAttribute("greeting", "Mates");
+        User john = new User("admin");
+        john.setFirstName("John");
+        User bob = new User("moderator");
+        bob.setFirstName("Bob");
+        User bill = new User("user");
+        bill.setFirstName("Bill");
+        userService.create(john);
+        userService.create(bob);
+        userService.create(bill);
+        req.setAttribute("users", users);
+        req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
     }
 }

@@ -26,4 +26,13 @@
         <url-pattern>/servlet/getAllUsers</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RegistrationController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.RegistrationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrationController</servlet-name>
+        <url-pattern>/servlet/registrationController</url-pattern>
+    </servlet-mapping>
+
 </web-app>
