@@ -36,8 +36,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        User user1 = new User("Name1");
-        User user2 = new User("Name2");
+        User user1 = new User("user1");
+        User user2 = new User("user2");
         userService.create(user1);
         userService.create(user2);
 

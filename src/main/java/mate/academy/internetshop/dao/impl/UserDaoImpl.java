@@ -33,8 +33,11 @@ public class UserDaoImpl implements UserDao {
         if (updatedUserOptional.isPresent()) {
             User updatedUser = updatedUserOptional.get();
             updatedUser.setUserId(user.getUserId());
-            updatedUser.setName(user.getName());
+            updatedUser.setFirstName(user.getFirstName());
+            updatedUser.setSecondName(user.getSecondName());
             updatedUser.setBucket(user.getBucket());
+            updatedUser.setUserName(user.getUserName());
+            updatedUser.setPassword(user.getPassword());
             return updatedUser;
         }
         return user;

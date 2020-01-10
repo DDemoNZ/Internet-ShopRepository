@@ -1,5 +1,6 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import mate.academy.internetshop.dao.UserDao;
@@ -33,6 +34,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean delete(Long userId) {
         return userDao.delete(userId);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 
 }
