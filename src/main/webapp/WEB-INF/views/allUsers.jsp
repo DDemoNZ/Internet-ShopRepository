@@ -2,7 +2,6 @@
 <jsp:useBean id="users" scope="request" type="java.util.List<mate.academy.internetshop.model.User>"/>
 <jsp:useBean id="greeting" scope="request" type="java.lang.String"/>
 
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -12,7 +11,6 @@
         <h1>Hello, ${greeting}, welcome to all users page</h1>
 
         <table border="1">
-            <!-- here should go some titles... -->
             <tr>
                 <th>Username</th>
                 <th>ID</th>
