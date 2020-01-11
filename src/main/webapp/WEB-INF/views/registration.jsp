@@ -11,7 +11,7 @@
                 <p>Please fill in this form to create an account.</p>
                 <hr>
 
-                <label for="Username"><b>Username</b></label>
+                <label for="username"><b>username</b></label>
                 <input type="text" placeholder="Enter username" name="username" required>
 
                 <label for="Password"><b>Password</b></label>

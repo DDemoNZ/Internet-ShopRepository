@@ -27,9 +27,9 @@ public class GetAllUsersController extends HttpServlet {
         bob.setFirstName("Bob");
         User bill = new User("user");
         bill.setFirstName("Bill");
-        userService.create(john);
-        userService.create(bob);
-        userService.create(bill);
+//        userService.create(john);
+//        userService.create(bob);
+//        userService.create(bill);
         req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
     }
