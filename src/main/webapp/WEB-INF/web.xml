@@ -35,4 +35,40 @@
         <url-pattern>/servlet/registration</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+    <servlet-name>DeleteUsers</servlet-name>
+    <servlet-class>mate.academy.internetshop.controller.DeleteUserController</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUsers</servlet-name>
+        <url-pattern>/servlet/deleteUsers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+    <servlet-name>AddItems</servlet-name>
+    <servlet-class>mate.academy.internetshop.controller.AddItemController</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>AddItems</servlet-name>
+        <url-pattern>/servlet/addItems</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteItems</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.DeleteItemController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteItems</servlet-name>
+        <url-pattern>/servlet/deleteItems</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetAllItems</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.GetAllItemsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllItems</servlet-name>
+        <url-pattern>/servlet/getAllItems</url-pattern>
+    </servlet-mapping>
+
 </web-app>

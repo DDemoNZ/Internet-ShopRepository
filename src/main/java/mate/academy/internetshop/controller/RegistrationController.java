@@ -23,8 +23,8 @@ public class RegistrationController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User newUser = new User(req.getParameter("username"));
         newUser.setPassword(req.getParameter("password"));
-        newUser.setFirstName(req.getParameter("first-name"));
-        newUser.setFirstName(req.getParameter("last-name"));
+        newUser.setFirstName(req.getParameter("first_name"));
+        newUser.setSecondName(req.getParameter("second_name"));
         userService.create(newUser);
         resp.sendRedirect(req.getContextPath() + "/servlet/getAllUsers");
     }

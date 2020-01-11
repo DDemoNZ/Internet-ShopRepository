@@ -15,6 +15,8 @@
                 <th>Username</th>
                 <th>ID</th>
                 <th>FirstName</th>
+                <th>LastName</th>
+                <th>Delete</th>
             </tr>
             <c:forEach var="user" items="${users}">
                 <tr>
@@ -26,6 +28,12 @@
                     </td>
                     <td>
                         <c:out value="${user.firstName}" />
+                    </td>
+                    <td>
+                        <c:out value="${user.secondName}" />
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/servlet/deleteUsers?user_id=${user.userId}">DELETE</a>
                     </td>
                 </tr>
             </c:forEach>

@@ -21,10 +21,10 @@
                 <input type="password" placeholder="Repeat Password" name="password-repeat" required>
 
                 <label for="First-name"><b>First name</b></label>
-                <input type="text" placeholder="Enter your first name" name="first-name" required>
+                <input type="text" placeholder="Enter your first name" name="first_name" required>
 
                 <label for="Last-name"><b>Last name</b></label>
-                <input type="text" placeholder="Enter your last name" name="last-name" required>
+                <input type="text" placeholder="Enter your last name" name="second_name" required>
                 <hr>
 
                 <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
