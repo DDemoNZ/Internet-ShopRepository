@@ -44,7 +44,7 @@ public class App {
         Bucket bucket1 = new Bucket(user1.getUserId());
         bucketService.create(bucket1);
 
-        user1.setBucket(bucket1);
+//        user1.setBucket(bucket1);
 
         System.out.println(Storage.users);
         System.out.println("___________________________________");

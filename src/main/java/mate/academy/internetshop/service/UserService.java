@@ -1,5 +1,6 @@
 package mate.academy.internetshop.service;
 
+import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.User;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface UserService {
     boolean delete(Long userId);
 
     List<User> getAll();
+
 }

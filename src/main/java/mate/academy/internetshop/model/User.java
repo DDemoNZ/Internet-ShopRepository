@@ -7,7 +7,7 @@ public class User {
     private String firstName;
     private String secondName;
     private Long userId;
-    private Bucket bucket;
+//    private Bucket bucket;
 
     public User(String userName) {
         this.userName = userName;
@@ -53,13 +53,13 @@ public class User {
         this.userId = userId;
     }
 
-    public Bucket getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
-    }
+//    public Bucket getBucket() {
+//        return bucket;
+//    }
+//
+//    public void setBucket(Bucket bucket) {
+//        this.bucket = bucket;
+//    }
 
     @Override
     public String toString() {
@@ -69,7 +69,7 @@ public class User {
                 + ", firstName='" + firstName + '\''
                 + ", secondName='" + secondName + '\''
                 + ", userId=" + userId
-                + ", bucket=" + bucket
+//                + ", bucket=" + bucket
                 + '}';
     }
 }

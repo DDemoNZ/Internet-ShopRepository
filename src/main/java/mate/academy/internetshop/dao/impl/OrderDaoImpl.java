@@ -1,12 +1,14 @@
 package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
+import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 
 @Dao
@@ -29,16 +31,10 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order update(Order order) {
-        Optional<Order> updatedOrderOptional = get(order.getOrderId());
-        if (updatedOrderOptional.isPresent()) {
-            Order updatedOrder = updatedOrderOptional.get();
-            updatedOrder.setItems(order.getItems());
-            updatedOrder.setOrderId(order.getOrderId());
-            updatedOrder.setUserId(order.getUserId());
-            updatedOrder.setAllPrice(order.getAllPrice());
-            return updatedOrder;
-        }
-        return order;
+        Order oldOrder = get(order.getOrderId()).orElseThrow(()
+                -> new NoSuchElementException("Can't update order with id " + order.getOrderId()));
+        int index = Storage.items.indexOf(oldOrder);
+        return Storage.orders.set(index, order);
     }
 
     @Override

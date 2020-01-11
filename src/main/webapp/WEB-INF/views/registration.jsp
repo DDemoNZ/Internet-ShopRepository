@@ -4,7 +4,7 @@
         <title>Registration</title>
     </head>
         <body>
-        Let's create a new User!
+        <h1 align="center"><b>Let's create a new User!</b></h1>
         <form action="/Internet_ShopProject_war_exploded/servlet/registration" method="post">
             <div class="container">
                 <h1>Register</h1>
@@ -31,9 +31,10 @@
                 <button type="submit" class="re">Register</button>
             </div>
 
-            <div class="container signin">
+            <div class="container signin" align="center">
                 <p>Already have an account? <a href="#">Sign in</a>.</p>
             </div>
         </form>
+        <a href="${pageContext.request.contextPath}/index">Back to main page</a>
         </body>
 </html>

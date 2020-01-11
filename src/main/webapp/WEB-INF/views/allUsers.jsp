@@ -37,6 +37,12 @@
                     </td>
                 </tr>
             </c:forEach>
+            <tr>
+                <td colspan="5">
+                    <a href="${pageContext.request.contextPath}/index">Back to main page</a>
+                </td>
+            </tr>
         </table>
+
     </body>
 </html>

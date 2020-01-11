@@ -22,4 +22,5 @@ public interface BucketService {
 
     List<Item> getAllItems(Bucket bucket);
 
+    List<Bucket> getAll();
 }

@@ -1,6 +1,7 @@
 package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.UserDao;
@@ -29,18 +30,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        Optional<User> updatedUserOptional = get(user.getUserId());
-        if (updatedUserOptional.isPresent()) {
-            User updatedUser = updatedUserOptional.get();
-            updatedUser.setUserId(user.getUserId());
-            updatedUser.setFirstName(user.getFirstName());
-            updatedUser.setSecondName(user.getSecondName());
-            updatedUser.setBucket(user.getBucket());
-            updatedUser.setUserName(user.getUserName());
-            updatedUser.setPassword(user.getPassword());
-            return updatedUser;
-        }
-        return user;
+        User oldUser = get(user.getUserId()).orElseThrow(()
+                -> new NoSuchElementException("Can't update user with id " + user.getUserId()));
+        int index = Storage.users.indexOf(oldUser);
+        return Storage.users.set(index, user);
     }
 
     @Override

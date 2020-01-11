@@ -1,6 +1,7 @@
 package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.ItemDao;
@@ -29,15 +30,10 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Item update(Item item) {
-        Optional<Item> updatedItemOptional = get(item.getItemId());
-        if (updatedItemOptional.isPresent()) {
-            Item updatedItem = updatedItemOptional.get();
-            updatedItem.setPrice(item.getPrice());
-            updatedItem.setItemId(item.getItemId());
-            updatedItem.setName(item.getName());
-            return updatedItem;
-        }
-        return item;
+        Item oldItem = get(item.getItemId()).orElseThrow(()
+                -> new NoSuchElementException("Can't update item with id " + item.getItemId()));
+        int index = Storage.items.indexOf(oldItem);
+        return Storage.items.set(index, item);
     }
 
     @Override
