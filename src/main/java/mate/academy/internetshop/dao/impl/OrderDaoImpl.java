@@ -8,7 +8,6 @@ import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
-import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 
 @Dao
@@ -33,7 +32,7 @@ public class OrderDaoImpl implements OrderDao {
     public Order update(Order order) {
         Order oldOrder = get(order.getOrderId()).orElseThrow(()
                 -> new NoSuchElementException("Can't update order with id " + order.getOrderId()));
-        int index = Storage.items.indexOf(oldOrder);
+        int index = Storage.orders.indexOf(oldOrder);
         return Storage.orders.set(index, order);
     }
 

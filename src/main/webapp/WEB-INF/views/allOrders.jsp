@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Order page</title>
+    <title>All Orders</title>
     <style>
         body {
             margin: 0;
@@ -60,7 +60,7 @@
     </style>
 </head>
 <body>
-<h1 align="center">Orders page</h1>
+<h1 align="center">All orders page</h1>
 <ul class="menu">
     <li><a href="${pageContext.request.contextPath}/servlet/registration">Registration</a></li>
     <li><a href="${pageContext.request.contextPath}/internetShop">Items list</a></li>
@@ -73,33 +73,45 @@
 <div style="margin-left:25%;padding:1px 16px;height:1000px;">
 <table border="1">
     <tr>
-        <th> ID </th>
+        <th> OrderID </th>
+        <th> UserID </th>
         <th> Items in order </th>
         <th> Price </th>
         <th> DELETE </th>
     </tr>
     <c:forEach var="order" items="${orders}">
         <tr>
-            <td><c:out value="${order.orderId}" /></td>
+            <td>
+                <c:out value="${order.orderId}" />
+            </td>
+            <td>
+                <c:out value="${order.userId}" />
+            </td>
             <td>
                 <table>
                     <tr>
+                        <th> ID </th>
                         <th> Name </th>
                         <th> Price </th>
                     </tr>
                     <c:forEach var="item" items="${order.items}">
-                        <tr><td>
+                        <tr>
+                            <td>
+                                <c:out value="${item.itemId}" />
+                            </td>
+                            <td>
                                 <c:out value="${item.name}" />
                             </td>
                             <td>
                                 <c:out value="${item.price}" />
-                        </td></tr>
+                            </td>
+                        </tr>
                     </c:forEach>
                 </table>
             </td>
             <td><c:out value="${order.allPrice}" /></td>
             <td>
-                <a href="${pageContext.request.contextPath}/servlet/deleteUsersOrder?order_id=${order.orderId}">DELETE</a>
+                <a href="${pageContext.request.contextPath}/servlet/deleteOrder?order_id=${order.orderId}">DELETE</a>
             </td>
         </tr>
     </c:forEach>

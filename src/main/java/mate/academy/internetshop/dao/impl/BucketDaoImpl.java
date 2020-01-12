@@ -31,7 +31,8 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public Bucket update(Bucket bucket) {
         Bucket oldBucket = get(bucket.getBucketId()).orElseThrow(()
-                -> new NoSuchElementException("Can't update bucket with id " + bucket.getBucketId()));
+                -> new NoSuchElementException("Can't update bucket with id "
+                + bucket.getBucketId()));
         int index = Storage.buckets.indexOf(oldBucket);
         return Storage.buckets.set(index, bucket);
     }

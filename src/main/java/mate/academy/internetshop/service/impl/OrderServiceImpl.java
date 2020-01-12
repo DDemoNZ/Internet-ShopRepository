@@ -45,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
         Double allPrice = items.stream()
                 .map(Item::getPrice)
                 .mapToDouble(elem -> elem).sum();
-        Order order = new Order(items, allPrice, user);
+        Order order = new Order(allPrice, user);
+        order.setItems(items);
         return create(order);
     }
 
@@ -56,5 +57,9 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Order> getAll() {
+        return Storage.orders;
+    }
 }
 

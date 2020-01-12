@@ -44,7 +44,7 @@ public class App {
         Bucket bucket1 = new Bucket(user1.getUserId());
         bucketService.create(bucket1);
 
-//        user1.setBucket(bucket1);
+        //user1.setBucket(bucket1);
 
         System.out.println(Storage.users);
         System.out.println("___________________________________");
@@ -72,5 +72,7 @@ public class App {
 
         orderService.completeOrder(bucketService.getAllItems(bucket1), user1);
         System.out.println(Storage.orders);
+        System.out.println(orderService.get(user1.getUserId()) + " Price"
+                + orderService.get(user1.getUserId()).getAllPrice());
     }
 }
