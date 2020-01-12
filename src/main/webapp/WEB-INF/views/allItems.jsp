@@ -59,59 +59,55 @@
 
     </style>
 </head>
-<body>
-    <h1 align="center">All items page</h1>
-    <ul class="menu">
-        <li><a href="${pageContext.request.contextPath}/servlet/registration">Registration</a></li>
-        <li><a href="${pageContext.request.contextPath}/internetShop">Items list</a></li>
-        <li><a href="${pageContext.request.contextPath}/getBucket?user_id=1">Check your bucket</a></li>
-        <li><a href="${pageContext.request.contextPath}/orders?user_id=1">Check your orders</a></li>
-        <li><a href="${pageContext.request.contextPath}/servlet/getAllItems"> Add items to storage</a></li>
-        <li><a href="${pageContext.request.contextPath}/servlet/getAllUsers">List of users</a></li>
-        <li><a href="${pageContext.request.contextPath}/servlet/getAllOrders"> List of orders </a></li>
-    </ul>
-    <div style="margin-left:25%;padding:1px 16px;height:1000px;">
-    <form action="${pageContext.request.contextPath}/servlet/addItems" method="get">
-        <div class="container">
-            <h1>Add items</h1>
-            <p>Please fill in this form to create an item</p>
-            <hr>
-
-            <label for="name"><b>ItemName</b></label>
-            <input type="text" placeholder="Enter item name" name="name">
-
-            <label for="price"><b>ItemPrice</b></label>
-            <input type="text" placeholder="Enter item price" name="price">
-            <hr>
-
-            <button type="submit">ADD</button>
-        </div>
-    </form>
-
-<table border="1">
-    <tr>
-        <th> ID </th>
-        <th> Name </th>
-        <th> Price </th>
-    </tr>
-
-    <c:forEach var="item" items="${items}">
+    <body>
+        <h1 align="center">All items page</h1>
+        <ul class="menu">
+            <li><a href="${pageContext.request.contextPath}/servlet/registration">Registration</a></li>
+            <li><a href="${pageContext.request.contextPath}/internetShop">Items list</a></li>
+            <li><a href="${pageContext.request.contextPath}/getBucket?user_id=1">Check your bucket</a></li>
+            <li><a href="${pageContext.request.contextPath}/orders?user_id=1">Check your orders</a></li>
+            <li><a href="${pageContext.request.contextPath}/servlet/getAllItems"> Add items to storage</a></li>
+            <li><a href="${pageContext.request.contextPath}/servlet/getAllUsers">List of users</a></li>
+            <li><a href="${pageContext.request.contextPath}/servlet/getAllOrders"> List of orders </a></li>
+        </ul>
+        <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+        <form action="${pageContext.request.contextPath}/servlet/addItems" method="get">
+            <div class="container">
+                <h1>Add items</h1>
+                <p>Please fill in this form to create an item</p>
+                <hr>
+                <label for="name"><b>ItemName</b></label>
+                <input type="text" placeholder="Enter item name" name="name">
+                <label for="price"><b>ItemPrice</b></label>
+                <input type="text" placeholder="Enter item price" name="price">
+                <hr>
+                <button type="submit">ADD</button>
+            </div>
+        </form>
+    <table border="1">
         <tr>
-            <td>
-                <c:out value="${item.itemId}" />
-            </td>
-            <td>
-                <c:out value="${item.name}" />
-            </td>
-            <td>
-                <c:out value="${item.price}" />
-            </td>
-            <td>
-                <a href="${pageContext.request.contextPath}/servlet/deleteItems?item_id=${item.itemId}">DELETE</a>
-            </td>
+            <th> ID </th>
+            <th> Name </th>
+            <th> Price </th>
+            <th> DELETE </th>
         </tr>
-    </c:forEach>
-</table>
+        <c:forEach var="item" items="${items}">
+            <tr>
+                <td>
+                    <c:out value="${item.itemId}" />
+                </td>
+                <td>
+                    <c:out value="${item.name}" />
+                </td>
+                <td>
+                    <c:out value="${item.price}" />
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/servlet/deleteItems?item_id=${item.itemId}">DELETE</a>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
     </div>
-</body>
+    </body>
 </html>

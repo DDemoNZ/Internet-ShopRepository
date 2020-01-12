@@ -95,7 +95,7 @@
         </tr>
     </c:forEach>
 </table>
-        <button onclick="location.href='${pageContext.request.contextPath}/servlet/completeOrder?bucket_id=${bucket.bucketId}'" type="button">Complete order</button>
-    </div>
+<button onclick="location.href='${pageContext.request.contextPath}/servlet/completeOrder?bucket_id=${bucket.bucketId}'" type="button">Complete order</button>
+</div>
 </body>
 </html>
