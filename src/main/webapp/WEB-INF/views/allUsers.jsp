@@ -63,6 +63,7 @@
     <body>
         <h1 align="center">Hello, ${greeting}, welcome to all users page</h1>
         <ul class="menu">
+            <li><a href="${pageContext.request.contextPath}/index">Main page</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/registration">Registration</a></li>
             <li><a href="${pageContext.request.contextPath}/internetShop">Items list</a></li>
             <li><a href="${pageContext.request.contextPath}/getBucket?user_id=1">Check your bucket</a></li>
