@@ -76,6 +76,7 @@
                 cursor: pointer;
                 width: 100%;
                 opacity: 0.9;
+                text-align: center;
             }
 
             .registerbtn:hover {
@@ -84,6 +85,8 @@
 
             a {
                 color: dodgerblue;
+                text-align: center;
+                font-size: 20px;
             }
 
             .signin {
@@ -94,6 +97,22 @@
             title {
                 padding: 15px 0px;
             }
+
+            p {
+                text-align: center;
+            }
+            button.re {
+                background-color: #030daf;
+                color: white;
+                padding: 16px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                opacity: 0.9;
+                text-align: center;
+            }
+
         </style>
     </head>
         <body>
