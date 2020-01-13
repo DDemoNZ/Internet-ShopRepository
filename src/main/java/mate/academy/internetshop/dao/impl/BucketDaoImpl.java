@@ -3,6 +3,7 @@ package mate.academy.internetshop.dao.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.db.Storage;
@@ -30,11 +31,10 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Bucket update(Bucket bucket) {
-        Bucket oldBucket = get(bucket.getBucketId()).orElseThrow(()
-                -> new NoSuchElementException("Can't update bucket with id "
-                + bucket.getBucketId()));
-        int index = Storage.buckets.indexOf(oldBucket);
-        return Storage.buckets.set(index, bucket);
+        IntStream.range(0, Storage.buckets.size())
+                .filter(b -> bucket.getBucketId().equals(Storage.buckets.get(b).getBucketId()))
+                .forEach(i -> Storage.buckets.set(i, bucket));
+        return bucket;
     }
 
     @Override

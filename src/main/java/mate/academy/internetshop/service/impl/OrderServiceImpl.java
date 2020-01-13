@@ -1,5 +1,6 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -45,8 +46,9 @@ public class OrderServiceImpl implements OrderService {
         Double allPrice = items.stream()
                 .map(Item::getPrice)
                 .mapToDouble(elem -> elem).sum();
+        List<Item> orderItems = new ArrayList<>(items);
         Order order = new Order(allPrice, user);
-        order.setItems(items);
+        order.setItems(orderItems);
         return create(order);
     }
 
