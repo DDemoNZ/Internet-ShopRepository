@@ -10,6 +10,12 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        a {
+            color: dodgerblue;
+            text-align: center;
+            font-size: 20px;
+        }
+
         ul {
             list-style-type: none;
             margin: 0;

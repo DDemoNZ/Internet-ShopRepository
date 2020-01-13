@@ -7,6 +7,12 @@
                 margin: 0;
             }
 
+            a {
+                color: dodgerblue;
+                text-align: center;
+                font-size: 20px;
+            }
+
             ul {
                 list-style-type: none;
                 margin: 0;
