@@ -21,7 +21,7 @@ public class GetAllOrdersController extends HttpServlet {
     @Inject
     private static UserService userService;
 
-    private final static Long USER_ID = 1L;
+    private static final Long USER_ID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
