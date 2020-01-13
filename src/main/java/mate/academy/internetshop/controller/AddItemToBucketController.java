@@ -14,7 +14,7 @@ import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.UserService;
 
-public class AddItemsToBucketController extends HttpServlet {
+public class AddItemToBucketController extends HttpServlet {
 
     @Inject
     private static BucketService bucketService;
@@ -25,7 +25,7 @@ public class AddItemsToBucketController extends HttpServlet {
     @Inject
     private static UserService userService;
 
-    private static Long userId = 1L;
+    private static final Long USER_ID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,13 +34,8 @@ public class AddItemsToBucketController extends HttpServlet {
         String itemId = req.getParameter("item_id");
 
         Item item = itemService.get(Long.valueOf(itemId));
-        User user = userService.get(userId);
-        Bucket bucket = bucketService.getAll()
-                .stream()
-                .filter(b -> b.getUserId().equals(user.getUserId()))
-                .findFirst()
-                .orElse(bucketService.create(new Bucket(user.getUserId())));
-
+        User user = userService.get(USER_ID);
+        Bucket bucket = bucketService.getByUserId(USER_ID);
         bucketService.addItem(bucket, item);
 
         resp.sendRedirect(req.getContextPath() + "/internetShop");

@@ -62,6 +62,18 @@
             padding: 15px 0px;
         }
 
+        button {
+            background-color: #0a791d;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -109,6 +121,7 @@
 <%--            </td>--%>
 <%--        </tr>--%>
     </table>
+        <button onclick="location.href='${pageContext.request.contextPath}/getBucket?user_id=1'" type="button">Back to your bucket</button>
     </div>
 </body>
 </html>

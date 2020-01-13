@@ -118,7 +118,7 @@
 
     <servlet>
         <servlet-name>AddItemsToBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.AddItemsToBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.AddItemToBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddItemsToBucket</servlet-name>
@@ -143,12 +143,4 @@
         <url-pattern>/orders</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>DeleteOrder</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.DeleteOrderController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DeleteOrder</servlet-name>
-        <url-pattern>/servlet/deleteOrder</url-pattern>
-    </servlet-mapping>
 </web-app>

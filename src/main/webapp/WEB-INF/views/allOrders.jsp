@@ -118,7 +118,7 @@
             </td>
             <td><c:out value="${order.allPrice}" /></td>
             <td>
-                <a href="${pageContext.request.contextPath}/servlet/deleteOrder?order_id=${order.orderId}">DELETE</a>
+                <a href="${pageContext.request.contextPath}/servlet/deleteUsersOrder?order_id=${order.orderId}">DELETE</a>
             </td>
         </tr>
     </c:forEach>

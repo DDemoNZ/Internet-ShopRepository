@@ -20,19 +20,14 @@ public class GetBucketController extends HttpServlet {
     @Inject
     private static BucketService bucketService;
 
-    private static Long userId = 1L;
+    private static final Long USER_ID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        User user = userService.get(userId);
-        Bucket bucket = bucketService.getAll()
-                .stream()
-                .filter(b -> b.getUserId().equals(user.getUserId()))
-                .findFirst()
-                .orElse(bucketService.create(new Bucket(user.getUserId())));
-
+        User user = userService.get(USER_ID);
+        Bucket bucket = bucketService.getByUserId(USER_ID);
         req.setAttribute("bucket", bucket);
 
         req.getRequestDispatcher("/WEB-INF/views/bucket.jsp").forward(req, resp);
