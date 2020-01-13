@@ -18,7 +18,7 @@ public class DeleteItemsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String itemId = req.getParameter("itemId");
+        String itemId = req.getParameter("item_id");
         itemService.delete(Long.valueOf(itemId));
 
         resp.sendRedirect(req.getContextPath() + "/servlet/getAllItems");
