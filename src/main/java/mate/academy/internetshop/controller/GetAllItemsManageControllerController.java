@@ -11,19 +11,18 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
 
-public class InternetShopController extends HttpServlet {
+public class GetAllItemsManageControllerController extends HttpServlet {
 
     @Inject
     private static ItemService itemService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+                throws ServletException, IOException {
 
         List<Item> items = itemService.getAll();
 
         req.setAttribute("items", items);
-
-        req.getRequestDispatcher("/WEB-INF/views/internetShop.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/allItems.jsp").forward(req, resp);
     }
 }

@@ -34,7 +34,6 @@ public class AddItemToBucketController extends HttpServlet {
         String itemId = req.getParameter("item_id");
 
         Item item = itemService.get(Long.valueOf(itemId));
-        User user = userService.get(USER_ID);
         Bucket bucket = bucketService.getByUserId(USER_ID);
         bucketService.addItem(bucket, item);
 

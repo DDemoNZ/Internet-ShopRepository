@@ -28,8 +28,8 @@ public class GetBucketController extends HttpServlet {
 
         User user = userService.get(USER_ID);
         Bucket bucket = bucketService.getByUserId(USER_ID);
-        req.setAttribute("bucket", bucket);
 
+        req.setAttribute("bucket", bucket);
         req.getRequestDispatcher("/WEB-INF/views/bucket.jsp").forward(req, resp);
     }
 }
