@@ -3,6 +3,7 @@ package mate.academy.internetshop.dao.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
@@ -30,10 +31,10 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order update(Order order) {
-        Order oldOrder = get(order.getOrderId()).orElseThrow(()
-                -> new NoSuchElementException("Can't update order with id " + order.getOrderId()));
-        int index = Storage.orders.indexOf(oldOrder);
-        return Storage.orders.set(index, order);
+        IntStream.range(0, Storage.orders.size())
+                .filter(or -> order.getOrderId().equals(Storage.orders.get(or).getOrderId()))
+                .forEach(i -> Storage.orders.set(i, order));
+        return order;
     }
 
     @Override

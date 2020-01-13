@@ -3,6 +3,7 @@ package mate.academy.internetshop.dao.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
@@ -30,10 +31,10 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Item update(Item item) {
-        Item oldItem = get(item.getItemId()).orElseThrow(()
-                -> new NoSuchElementException("Can't update item with id " + item.getItemId()));
-        int index = Storage.items.indexOf(oldItem);
-        return Storage.items.set(index, item);
+        IntStream.range(0, Storage.items.size())
+                .filter(it -> item.getItemId().equals(Storage.items.get(it).getItemId()))
+                .forEach(i -> Storage.items.set(i, item));
+        return item;
     }
 
     @Override

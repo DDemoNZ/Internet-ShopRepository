@@ -3,6 +3,7 @@ package mate.academy.internetshop.dao.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.db.Storage;
@@ -30,10 +31,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        User oldUser = get(user.getUserId()).orElseThrow(()
-                -> new NoSuchElementException("Can't update user with id " + user.getUserId()));
-        int index = Storage.users.indexOf(oldUser);
-        return Storage.users.set(index, user);
+        IntStream.range(0, Storage.users.size())
+                .filter(u -> user.getUserId().equals(Storage.users.get(u).getUserId()))
+                .forEach(i -> Storage.users.set(i, user));
+        return user;
     }
 
     @Override
