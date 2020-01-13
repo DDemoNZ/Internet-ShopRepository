@@ -116,7 +116,6 @@
         </style>
     </head>
         <body>
-        <h1 align="center"><b>Let's create a new User!</b></h1>
         <ul class="menu">
             <li><a href="${pageContext.request.contextPath}/index">Main page</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/registration">Registration</a></li>
@@ -127,7 +126,7 @@
             <li><a href="${pageContext.request.contextPath}/servlet/getAllUsers">List of users</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/getAllOrders"> List of orders </a></li>
         </ul>
-
+        <h1 align="center"><b>Let's create a new User!</b></h1>
         <div style="margin-left:25%;padding:1px 16px;height:1000px;">
         <form action="${pageContext.request.contextPath}/servlet/registration" method="post">
             <div class="container">
