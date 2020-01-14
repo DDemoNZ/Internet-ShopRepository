@@ -1,6 +1,7 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
@@ -26,7 +27,8 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket get(Long bucketId) {
-        return bucketDao.get(bucketId).get();
+        return bucketDao.get(bucketId).orElseThrow(()
+                -> new NoSuchElementException("Can't find bucket with id " + bucketId));
     }
 
     @Override
@@ -66,4 +68,16 @@ public class BucketServiceImpl implements BucketService {
         return bucketDao.get(bucket.getBucketId()).get().getItems();
     }
 
+    @Override
+    public List<Bucket> getAll() {
+        return bucketDao.getAll();
+    }
+
+    @Override
+    public Bucket getByUserId(Long userId) {
+        return getAll().stream()
+                .filter(b -> b.getUserId().equals(userId))
+                .findFirst()
+                .orElse(create(new Bucket(userId)));
+    }
 }

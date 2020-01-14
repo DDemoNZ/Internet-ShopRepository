@@ -1,8 +1,8 @@
 package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
@@ -22,26 +22,17 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> get(Long id) {
-        return Optional.of(Storage.orders
+        return Storage.orders
                 .stream()
                 .filter(order -> order.getOrderId().equals(id))
-                .findFirst()
-                .orElseThrow(()
-                        -> new NoSuchElementException("Can't find order with id "
-                        + id)));
+                .findFirst();
     }
 
     @Override
     public Order update(Order order) {
-        Optional<Order> updatedOrderOptional = get(order.getOrderId());
-        if (updatedOrderOptional.isPresent()) {
-            Order updatedOrder = updatedOrderOptional.get();
-            updatedOrder.setItems(order.getItems());
-            updatedOrder.setOrderId(order.getOrderId());
-            updatedOrder.setUserId(order.getUserId());
-            updatedOrder.setAllPrice(order.getAllPrice());
-            return updatedOrder;
-        }
+        IntStream.range(0, Storage.orders.size())
+                .filter(or -> order.getOrderId().equals(Storage.orders.get(or).getOrderId()))
+                .forEach(i -> Storage.orders.set(i, order));
         return order;
     }
 

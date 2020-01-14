@@ -1,8 +1,8 @@
 package mate.academy.internetshop.dao.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.db.Storage;
@@ -22,24 +22,17 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Optional<Bucket> get(Long bucketId) {
-        return Optional.of(Storage.buckets
+        return Storage.buckets
                 .stream()
-                .filter(bucket -> bucket.getBucketId().equals(bucketId))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find bucket with id "
-                        + bucketId)));
+                .filter(b -> b.getBucketId().equals(bucketId))
+                .findFirst();
     }
 
     @Override
     public Bucket update(Bucket bucket) {
-        Optional<Bucket> updatedBucketOptional = get(bucket.getBucketId());
-        if (updatedBucketOptional.isPresent()) {
-            Bucket updatedBucket = updatedBucketOptional.get();
-            updatedBucket.setUserId(bucket.getUserId());
-            updatedBucket.setItems(bucket.getItems());
-            updatedBucket.setBucketId(bucket.getBucketId());
-            return updatedBucket;
-        }
+        IntStream.range(0, Storage.buckets.size())
+                .filter(b -> bucket.getBucketId().equals(Storage.buckets.get(b).getBucketId()))
+                .forEach(i -> Storage.buckets.set(i, bucket));
         return bucket;
     }
 
