@@ -1,15 +1,18 @@
-package mate.academy.internetshop.controller.UserController;
+package mate.academy.internetshop.controller.user.controller;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
-public class DeleteUserController extends HttpServlet {
+public class GetAllUsersController extends HttpServlet {
+
     @Inject
     private static UserService userService;
 
@@ -17,9 +20,10 @@ public class DeleteUserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String userId = req.getParameter("user_id");
-        userService.delete(Long.valueOf(userId));
+        List<User> users = userService.getAll();
 
-        resp.sendRedirect(req.getContextPath() + "/servlet/getAllUsers");
+        req.setAttribute("greeting", "Mates");
+        req.setAttribute("users", users);
+        req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
     }
 }

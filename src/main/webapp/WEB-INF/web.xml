@@ -19,7 +19,7 @@
 
     <servlet>
         <servlet-name>getAllUsers</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.UserController.GetAllUsersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.user.controller.GetAllUsersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getAllUsers</servlet-name>
@@ -37,7 +37,7 @@
 
     <servlet>
     <servlet-name>DeleteUsers</servlet-name>
-    <servlet-class>mate.academy.internetshop.controller.UserController.DeleteUserController</servlet-class>
+    <servlet-class>mate.academy.internetshop.controller.user.controller.DeleteUserController</servlet-class>
 </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUsers</servlet-name>
@@ -46,7 +46,7 @@
 
     <servlet>
     <servlet-name>AddItems</servlet-name>
-    <servlet-class>mate.academy.internetshop.controller.ItemController.AddItemController</servlet-class>
+    <servlet-class>mate.academy.internetshop.controller.item.controller.AddItemController</servlet-class>
 </servlet>
     <servlet-mapping>
         <servlet-name>AddItems</servlet-name>
@@ -55,7 +55,7 @@
 
     <servlet>
         <servlet-name>DeleteItems</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.ItemController.DeleteItemsController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.item.controller.DeleteItemsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteItems</servlet-name>
@@ -64,7 +64,7 @@
 
     <servlet>
         <servlet-name>GetAllItems</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.ItemController.GetAllItemsManageControllerController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.item.controller.GetAllItemsManageControllerController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllItems</servlet-name>
@@ -73,7 +73,7 @@
 
     <servlet>
         <servlet-name>GetAllOrders</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.OrderController.GetAllOrdersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.order.controller.GetAllOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllOrders</servlet-name>
@@ -82,7 +82,7 @@
 
     <servlet>
         <servlet-name>GetBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.BucketController.GetBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.bucket.controller.GetBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetBucket</servlet-name>
@@ -91,7 +91,7 @@
 
     <servlet>
         <servlet-name>DeleteItemFromBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.BucketController.DeleteItemsFromBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.bucket.controller.DeleteItemsFromBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteItemFromBucket</servlet-name>
@@ -100,7 +100,7 @@
 
     <servlet>
         <servlet-name>CompleteOrder</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.OrderController.CompleteOrderController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.order.controller.CompleteOrderController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CompleteOrder</servlet-name>
@@ -109,7 +109,7 @@
 
     <servlet>
         <servlet-name>InternetShop</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.ItemController.GetAllItemsController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.item.controller.GetAllItemsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InternetShop</servlet-name>
@@ -118,7 +118,7 @@
 
     <servlet>
         <servlet-name>AddItemsToBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.BucketController.AddItemToBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.bucket.controller.AddItemToBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddItemsToBucket</servlet-name>
@@ -127,7 +127,7 @@
 
     <servlet>
         <servlet-name>DeleteUserOrders</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.UserController.DeleteUserOrdersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.user.controller.DeleteUserOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUserOrders</servlet-name>
@@ -136,7 +136,7 @@
 
     <servlet>
         <servlet-name>Orders</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.UserController.GetUserOrdersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.user.controller.GetUserOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Orders</servlet-name>
@@ -159,10 +159,6 @@
     <filter-mapping>
         <filter-name>auth-filter</filter-name>
         <url-pattern>/servlet/*</url-pattern>
-        <servlet-name>index</servlet-name>
-        <servlet-name>GetBucket</servlet-name>
-        <servlet-name>GetAllOrders</servlet-name>
-        <servlet-name>GetAllItems</servlet-name>
     </filter-mapping>
 
 </web-app>

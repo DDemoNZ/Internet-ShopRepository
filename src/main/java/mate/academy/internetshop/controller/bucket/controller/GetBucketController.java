@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller.BucketController;
+package mate.academy.internetshop.controller.bucket.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
