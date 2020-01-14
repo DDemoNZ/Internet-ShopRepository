@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 public class App {
 
-    static final Logger logger = Logger.getLogger(App.class);
+    private static final Logger logger = Logger.getLogger(App.class);
 
     @Inject
     private static ItemService itemService;
@@ -39,6 +39,7 @@ public class App {
     }
 
     public static void main(String[] args) {
+        logger.info("START APP");
         Item item1 = new Item("item1", 1.0);
         itemService.create(item1);
         User user1 = new User("user1");
