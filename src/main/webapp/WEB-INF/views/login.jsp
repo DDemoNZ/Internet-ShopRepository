@@ -136,20 +136,21 @@
 <body>
 <h1 align="center"><b>Sign in</b></h1>
 <ul class="menu">
-    <li><a href="${pageContext.request.contextPath}/index">Main page</a></li>
-    <li><a href="${pageContext.request.contextPath}/servlet/registration">Registration</a></li>
-    <li><a href="${pageContext.request.contextPath}/internetShop">Items list</a></li>
-    <li><a href="${pageContext.request.contextPath}/getBucket?user_id=1">Check your bucket</a></li>
-    <li><a href="${pageContext.request.contextPath}/orders?user_id=1">Check your orders</a></li>
+    <li><a href="${pageContext.request.contextPath}/servlet/index">Main page</a></li>
+    <li><a href="${pageContext.request.contextPath}/registration">Registration</a></li>
+    <li><a href="${pageContext.request.contextPath}/servlet/internetShop">Items list</a></li>
+    <li><a href="${pageContext.request.contextPath}/servlet/getBucket">Check your bucket</a></li>
+    <li><a href="${pageContext.request.contextPath}/servlet/orders">Check your orders</a></li>
     <li><a href="${pageContext.request.contextPath}/servlet/getAllItems"> Add items to storage</a></li>
     <li><a href="${pageContext.request.contextPath}/servlet/getAllUsers">List of users</a></li>
     <li><a href="${pageContext.request.contextPath}/servlet/getAllOrders"> List of orders </a></li>
 </ul>
 <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+    <div style="font-size: 30px;color: darkred;text-align: center">${errorMsg}!</div>
     <form action="${pageContext.request.contextPath}/login" method="post">
         <div class="container">
-            <h1>Registration</h1>
-            <p>Please fill in this form to sign in account.</p>
+            <h1 align="center">Registration</h1>
+            <p align="center">Please fill in this form to sign in account.</p>
             <hr>
 
             <label for="Username"><b>Username</b></label>
@@ -160,7 +161,7 @@
 
 
             <button type="submit" class="re">Sign in</button>
-            <button class="re" onclick="location.href='${pageContext.request.contextPath}/servlet/registration'" type="button">Registration</button>
+            <button class="re" onclick="location.href='${pageContext.request.contextPath}/registration'" type="button">Registration</button>
 
         </div>
 

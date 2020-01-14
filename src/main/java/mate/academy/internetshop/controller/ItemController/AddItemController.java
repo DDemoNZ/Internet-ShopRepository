@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.ItemController;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
 
-public class DeleteItemsController extends HttpServlet {
+public class AddItemController extends HttpServlet {
 
     @Inject
     private static ItemService itemService;
@@ -18,8 +19,9 @@ public class DeleteItemsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String itemId = req.getParameter("item_id");
-        itemService.delete(Long.valueOf(itemId));
+        Item newItem = new Item(req.getParameter("name"),
+                Double.valueOf(req.getParameter("price")));
+        itemService.create(newItem);
 
         resp.sendRedirect(req.getContextPath() + "/servlet/getAllItems");
     }

@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.UserController;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,27 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.User;
+import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.service.OrderService;
-import mate.academy.internetshop.service.UserService;
 
-public class GetUserOrdersController extends HttpServlet {
+public class DeleteUserOrdersController extends HttpServlet {
 
     @Inject
     private static OrderService orderService;
-
-    @Inject
-    private static UserService userService;
-
-    private static final Long USER_ID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        User user = userService.get(USER_ID);
+        String orderId = req.getParameter("order_id");
+        orderService.delete(Long.valueOf(orderId));
 
-        req.setAttribute("orders", orderService.getUserOrders(user));
-        req.getRequestDispatcher("/WEB-INF/views/orders.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/servlet/orders");
     }
 }

@@ -12,6 +12,7 @@ public class InjectInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+
         try {
             logger.info("InjectInitializer start");
             Injector.injectDependency();

@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.OrderController;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,13 +21,12 @@ public class GetAllOrdersController extends HttpServlet {
     @Inject
     private static UserService userService;
 
-    private static final Long USER_ID = 1L;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        User user = userService.get(USER_ID);
+        Long userId = (Long) req.getSession(true).getAttribute("user_id");
+        User user = userService.get(userId);
         List<Order> orders = orderService.getUserOrders(user);
 
         req.setAttribute("orders", orders);

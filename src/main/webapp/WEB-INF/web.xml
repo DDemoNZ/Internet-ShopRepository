@@ -14,12 +14,12 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>index</servlet-name>
-        <url-pattern>/index</url-pattern>
+        <url-pattern>/servlet/index</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>getAllUsers</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.GetAllUsersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.UserController.GetAllUsersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getAllUsers</servlet-name>
@@ -32,12 +32,12 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistrationController</servlet-name>
-        <url-pattern>/servlet/registration</url-pattern>
+        <url-pattern>/registration</url-pattern>
     </servlet-mapping>
 
     <servlet>
     <servlet-name>DeleteUsers</servlet-name>
-    <servlet-class>mate.academy.internetshop.controller.DeleteUserController</servlet-class>
+    <servlet-class>mate.academy.internetshop.controller.UserController.DeleteUserController</servlet-class>
 </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUsers</servlet-name>
@@ -46,7 +46,7 @@
 
     <servlet>
     <servlet-name>AddItems</servlet-name>
-    <servlet-class>mate.academy.internetshop.controller.AddItemController</servlet-class>
+    <servlet-class>mate.academy.internetshop.controller.ItemController.AddItemController</servlet-class>
 </servlet>
     <servlet-mapping>
         <servlet-name>AddItems</servlet-name>
@@ -55,7 +55,7 @@
 
     <servlet>
         <servlet-name>DeleteItems</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.DeleteItemsController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.ItemController.DeleteItemsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteItems</servlet-name>
@@ -64,7 +64,7 @@
 
     <servlet>
         <servlet-name>GetAllItems</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.GetAllItemsManageControllerController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.ItemController.GetAllItemsManageControllerController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllItems</servlet-name>
@@ -73,7 +73,7 @@
 
     <servlet>
         <servlet-name>GetAllOrders</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.GetAllOrdersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.OrderController.GetAllOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllOrders</servlet-name>
@@ -82,16 +82,16 @@
 
     <servlet>
         <servlet-name>GetBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.GetBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.BucketController.GetBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetBucket</servlet-name>
-        <url-pattern>/getBucket</url-pattern>
+        <url-pattern>/servlet/getBucket</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>DeleteItemFromBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.DeleteItemsFromBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.BucketController.DeleteItemsFromBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteItemFromBucket</servlet-name>
@@ -100,7 +100,7 @@
 
     <servlet>
         <servlet-name>CompleteOrder</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.CompleteOrderController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.OrderController.CompleteOrderController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CompleteOrder</servlet-name>
@@ -109,16 +109,16 @@
 
     <servlet>
         <servlet-name>InternetShop</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.GetAllItemsController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.ItemController.GetAllItemsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InternetShop</servlet-name>
-        <url-pattern>/internetShop</url-pattern>
+        <url-pattern>/servlet/internetShop</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>AddItemsToBucket</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.AddItemToBucketController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.BucketController.AddItemToBucketController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddItemsToBucket</servlet-name>
@@ -127,7 +127,7 @@
 
     <servlet>
         <servlet-name>DeleteUserOrders</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.DeleteUserOrdersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.UserController.DeleteUserOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUserOrders</servlet-name>
@@ -136,11 +136,11 @@
 
     <servlet>
         <servlet-name>Orders</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.GetUserOrdersController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.UserController.GetUserOrdersController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Orders</servlet-name>
-        <url-pattern>/orders</url-pattern>
+        <url-pattern>/servlet/orders</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -151,5 +151,18 @@
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>auth-filter</filter-name>
+        <filter-class>mate.academy.internetshop.web.filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>auth-filter</filter-name>
+        <url-pattern>/servlet/*</url-pattern>
+        <servlet-name>index</servlet-name>
+        <servlet-name>GetBucket</servlet-name>
+        <servlet-name>GetAllOrders</servlet-name>
+        <servlet-name>GetAllItems</servlet-name>
+    </filter-mapping>
 
 </web-app>

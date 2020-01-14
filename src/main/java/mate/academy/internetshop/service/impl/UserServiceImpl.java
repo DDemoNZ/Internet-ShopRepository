@@ -3,11 +3,10 @@ package mate.academy.internetshop.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+import java.util.UUID;
 import javax.naming.AuthenticationException;
 
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.User;
@@ -21,7 +20,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        user.setToken(getToket());
         return userDao.create(user);
+    }
+
+    private String getToket() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
@@ -46,11 +50,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String username, String password) {
+    public User login(String username, String password) throws AuthenticationException {
         Optional<User> userByUsername = userDao.getByUsername(username);
         if (userByUsername.isEmpty() || !userByUsername.get().getPassword().equals(password)) {
-            throw new RuntimeException("Invalid login or password");
+            throw new AuthenticationException("Invalid login or password");
         }
         return userByUsername.get();
+    }
+
+    @Override
+    public Optional<User> getByToken(String token) {
+        return userDao.getByToken(token);
     }
 }

@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.ItemController;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,7 @@ public class GetAllItemsManageControllerController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-                throws ServletException, IOException {
+            throws ServletException, IOException {
 
         List<Item> items = itemService.getAll();
 
