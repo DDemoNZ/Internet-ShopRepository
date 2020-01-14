@@ -161,7 +161,7 @@
             </div>
 
             <div class="container signin" align="center">
-                <p>Already have an account? <a href="#">Sign in</a>.</p>
+                <p>Already have an account? <a href=${pageContext.request.contextPath}/login>Sign in</a>.</p>
             </div>
         </form>
         </div>
