@@ -36,7 +36,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         if (req.getCookies() == null) {
-            LOGGER.debug("Cookies are empty");
+            LOGGER.info("Cookies are empty");
             processAnAuthenticated(req, resp);
             return;
         }
@@ -61,6 +61,5 @@ public class AuthenticationFilter implements Filter {
     private void processAnAuthenticated(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         response.sendRedirect(request.getContextPath() + "/login");
-
     }
 }
