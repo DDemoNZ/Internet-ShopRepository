@@ -1,27 +1,24 @@
 package mate.academy.internetshop.web.filters;
 
-import mate.academy.internetshop.model.Role;
-import mate.academy.internetshop.model.User;
+import static mate.academy.internetshop.model.Role.RoleName.ADMIN;
+import static mate.academy.internetshop.model.Role.RoleName.USER;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.Role;
+import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-
-import static mate.academy.internetshop.model.Role.RoleName.ADMIN;
-import static mate.academy.internetshop.model.Role.RoleName.USER;
 
 public class AuthorizationFilter implements Filter {
 
