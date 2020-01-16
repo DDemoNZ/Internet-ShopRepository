@@ -7,9 +7,18 @@ public class User {
     private String firstName;
     private String secondName;
     private Long userId;
+    private String token;
 
     public User(String userName) {
         this.userName = userName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUserName() {

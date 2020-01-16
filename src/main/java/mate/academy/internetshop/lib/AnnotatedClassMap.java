@@ -16,8 +16,8 @@ import mate.academy.internetshop.service.UserService;
 public class AnnotatedClassMap {
 
     private static final Map<Class<?>, Object> classMap = new HashMap<>();
-    
-    static  {
+
+    static {
         classMap.put(BucketDao.class, FactoryForAllDao.getBucketDao());
         classMap.put(ItemDao.class, FactoryForAllDao.getItemDao());
         classMap.put(OrderDao.class, FactoryForAllDao.getOrderDao());

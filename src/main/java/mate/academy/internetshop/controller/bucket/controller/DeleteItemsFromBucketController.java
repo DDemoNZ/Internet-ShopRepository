@@ -1,7 +1,6 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.bucket.controller;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,31 +11,32 @@ import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.BucketService;
-import mate.academy.internetshop.service.OrderService;
+import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.UserService;
 
-public class CompleteOrderController extends HttpServlet {
+public class DeleteItemsFromBucketController extends HttpServlet {
 
     @Inject
     private static BucketService bucketService;
 
     @Inject
-    private static UserService userService;
+    private static ItemService itemService;
 
     @Inject
-    private static OrderService orderService;
-
-    private static final Long USER_ID = 1L;
+    private static UserService userService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        Bucket bucket = bucketService.get(USER_ID);
-        User user = userService.get(bucket.getUserId());
-        List<Item> items = bucket.getItems();
-        orderService.completeOrder(items, user);
+        Long userId = (Long) req.getSession(true).getAttribute("user_id");
+        String itemId = req.getParameter("item_id");
 
-        resp.sendRedirect(req.getContextPath() + "/orders?user_id=" + bucket.getUserId());
+        User user = userService.get(userId);
+        Bucket bucket = bucketService.getByUserId(user.getUserId());
+        Item item = itemService.get(Long.valueOf(itemId));
+        bucketService.deleteItem(bucket, item);
+
+        resp.sendRedirect(req.getContextPath() + "/servlet/getBucket");
     }
 }

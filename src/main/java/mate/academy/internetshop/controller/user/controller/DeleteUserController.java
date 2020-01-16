@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.user.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -10,6 +10,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.service.UserService;
 
 public class DeleteUserController extends HttpServlet {
+
     @Inject
     private static UserService userService;
 

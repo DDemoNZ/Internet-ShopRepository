@@ -1,4 +1,4 @@
-package mate.academy.internetshop.controller;
+package mate.academy.internetshop.controller.bucket.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -12,7 +12,7 @@ import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 
-public class DeleteItemsFromBucketController extends HttpServlet {
+public class AddItemToBucketController extends HttpServlet {
 
     @Inject
     private static BucketService bucketService;
@@ -24,14 +24,13 @@ public class DeleteItemsFromBucketController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String bucketId = req.getParameter("bucket_id");
+        Long userId = (Long) req.getSession(true).getAttribute("user_id");
         String itemId = req.getParameter("item_id");
 
-        Bucket bucket = bucketService.get(Long.valueOf(bucketId));
         Item item = itemService.get(Long.valueOf(itemId));
+        Bucket bucket = bucketService.getByUserId(userId);
+        bucketService.addItem(bucket, item);
 
-        bucketService.deleteItem(bucket, item);
-
-        resp.sendRedirect(req.getContextPath() + "/getBucket?user_id=" + bucket.getUserId());
+        resp.sendRedirect(req.getContextPath() + "/servlet/internetShop");
     }
 }
