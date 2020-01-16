@@ -1,11 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<jsp:useBean id="orders" scope="request" type="java.util.List<mate.academy.internetshop.model.Order>"/>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>All Orders</title>
+    <title>Access denied</title>
     <style>
         body {
             margin: 0;
@@ -46,31 +43,21 @@
             color: white;
         }
 
-        table, td, th {
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            padding: 15px;
-        }
-
         title {
             padding: 15px 0px;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
         }
     </style>
 </head>
 <body>
-<h1 align="center">All orders page</h1>
+<h1 align="center">ACCESS</h1>
 <ul class="menu">
     <li style="align-content: center"><b>MENU</b></li>
     <li><a href="${pageContext.request.contextPath}/servlet/index">Main page</a></li>
-    <li><b>REG/LOG</b></li>
+    <li style="align-content: center"><b>REG/LOG</b></li>
     <li><a href="${pageContext.request.contextPath}/registration">Registration</a></li>
     <li><a href="${pageContext.request.contextPath}/login">LogIn</a></li>
     <li><a href="${pageContext.request.contextPath}/logout">LogOut</a></li>
@@ -84,52 +71,7 @@
     <li><a href="${pageContext.request.contextPath}/servlet/getAllOrders"> List of orders </a></li>
     <li><a href="${pageContext.request.contextPath}/inject">INJECT BUTTON</a></li>
 </ul>
-<div style="margin-left:25%;padding:1px 16px;height:1000px;">
-<table border="1">
-    <tr>
-        <th> OrderID </th>
-        <th> UserID </th>
-        <th> Items in order </th>
-        <th> Price </th>
-        <th> DELETE </th>
-    </tr>
-    <c:forEach var="order" items="${orders}">
-        <tr>
-            <td>
-                <c:out value="${order.orderId}" />
-            </td>
-            <td>
-                <c:out value="${order.userId}" />
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <th> ID </th>
-                        <th> Name </th>
-                        <th> Price </th>
-                    </tr>
-                    <c:forEach var="item" items="${order.items}">
-                        <tr>
-                            <td>
-                                <c:out value="${item.itemId}" />
-                            </td>
-                            <td>
-                                <c:out value="${item.name}" />
-                            </td>
-                            <td>
-                                <c:out value="${item.price}" />
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </td>
-            <td><c:out value="${order.allPrice}" /></td>
-            <td>
-                <a href="${pageContext.request.contextPath}/servlet/deleteUsersOrder?order_id=${order.orderId}">DELETE</a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-</div>
+<div align="center" style="font-size: 60px;padding-left: 20%;padding-top: 10%">YOU SHALL NOT PASS (because access denied)</div>
+<div style="padding-left: 25%;size: auto"><img src="<c:url value="/webContent/image/8be247af7594ac0c5426a256363a86e1.png"/>"/></div>
 </body>
 </html>
