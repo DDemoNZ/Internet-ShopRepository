@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.lib.Inject;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
@@ -29,7 +30,7 @@ public class RegistrationController extends HttpServlet {
         newUser.setPassword(req.getParameter("password"));
         newUser.setFirstName(req.getParameter("first_name"));
         newUser.setSecondName(req.getParameter("second_name"));
-
+        newUser.addRole(Role.of("USER"));
         User user = userService.create(newUser);
 
         resp.sendRedirect(req.getContextPath() + "/login");
