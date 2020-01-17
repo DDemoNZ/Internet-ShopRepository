@@ -3,144 +3,32 @@
     <head>
         <title>Registration</title>
         <style>
-            body {
-                margin: 0;
-            }
-
-            a {
-                color: dodgerblue;
-                text-align: center;
-                font-size: 20px;
-            }
-
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                width: 25%;
-                background-color: #f1f1f1;
-                position: fixed;
-                height: 100%;
-                overflow: auto;
-            }
-
-            li a {
-                display: block;
-                color: #000;
-                padding: 8px 16px;
-                text-decoration: none;
-            }
-
-            li a.active {
-                background-color: #4CAF50;
-                color: white;
-            }
-
-            li a:hover:not(.active) {
-                background-color: #555;
-                color: white;
-            }
-
-            body {
-                font-family: Arial, Helvetica, sans-serif;
-            }
-
-            * {
-                box-sizing: border-box;
-            }
-
-            .container {
-                padding: 16px;
-                background-color: white;
-            }
-
-            input[type=text], input[type=password] {
-                width: 100%;
-                padding: 15px;
-                margin: 5px 0 22px 0;
-                display: inline-block;
-                border: none;
-                background: #f1f1f1;
-            }
-
-            input[type=text]:focus, input[type=password]:focus {
-                background-color: #ddd;
-                outline: none;
-            }
-
-            hr {
-                border: 1px solid #f1f1f1;
-                margin-bottom: 25px;
-            }
-
-            .registerbtn {
-                background-color: #4CAF50;
-                color: white;
-                padding: 16px 20px;
-                margin: 8px 0;
-                border: none;
-                cursor: pointer;
-                width: 100%;
-                opacity: 0.9;
-                text-align: center;
-            }
-
-            .registerbtn:hover {
-                opacity: 1;
-            }
-
-            a {
-                color: dodgerblue;
-                text-align: center;
-                font-size: 20px;
-            }
-
-            .signin {
-                background-color: #f1f1f1;
-                text-align: center;
-            }
-
-            title {
-                padding: 15px 0px;
-            }
-
-            p {
-                text-align: center;
-            }
-            button.re {
-                background-color: #030daf;
-                color: white;
-                padding: 16px 20px;
-                margin: 8px 0;
-                border: none;
-                cursor: pointer;
-                width: 100%;
-                opacity: 0.9;
-                text-align: center;
-            }
-
+            <%@include file="/style/style.css"%>
         </style>
     </head>
         <body>
-        <h1 align="center"><b>Let's create a new User!</b></h1>
         <ul class="menu">
-            <li><b>MENU</b></li>
             <li><a href="${pageContext.request.contextPath}/servlet/index">Main page</a></li>
-            <li><b>REG/LOG</b></li>
+            <hr>
+            <h2 class="menu"><b>REG/LOG</b></h2>
             <li><a href="${pageContext.request.contextPath}/registration">Registration</a></li>
             <li><a href="${pageContext.request.contextPath}/login">LogIn</a></li>
             <li><a href="${pageContext.request.contextPath}/logout">LogOut</a></li>
-            <li><b>USER UTILS</b></li>
+            <hr>
+            <h2 class="menu"><b>USER UTILS</b></h2>
             <li><a href="${pageContext.request.contextPath}/servlet/internetShop">Items list</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/getBucket">Check your bucket</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/orders">Check your orders</a></li>
-            <li><b>ADMIN UTILS</b></li>
+            <hr>
+            <h2 class="menu"><b>ADMIN UTIL</b></h2>
             <li><a href="${pageContext.request.contextPath}/servlet/getAllItems"> Add items to storage</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/getAllUsers">List of users</a></li>
             <li><a href="${pageContext.request.contextPath}/servlet/getAllOrders"> List of orders </a></li>
+            <hr>
             <li><a href="${pageContext.request.contextPath}/inject">INJECT BUTTON</a></li>
         </ul>
-        <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+        <h1 align="center"><b class="title">Let's create a new User!</b></h1>
+        <div class="tables">
         <form action="${pageContext.request.contextPath}/registration" method="post">
             <div class="container">
                 <h1>Register</h1>
