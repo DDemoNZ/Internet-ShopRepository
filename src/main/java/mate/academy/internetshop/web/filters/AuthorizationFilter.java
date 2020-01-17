@@ -48,17 +48,17 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
         String requestedUrl = httpServletRequest.getServletPath();
-        Role.RoleName roleNameAdmin = protectedUrls.get(requestedUrl);
-        Role.RoleName roleNameUser = protectedUrls.get(requestedUrl);
-        if (roleNameAdmin == null && roleNameUser == null) {
-            processDenied(httpServletRequest, httpServletResponse);
+        Role.RoleName roleName = protectedUrls.get(requestedUrl);
+        if (roleName == null) {
+            processAuthenticated(filterChain, httpServletRequest, httpServletResponse);
             return;
         }
 
         Long userId = (Long) httpServletRequest.getSession().getAttribute("user_id");
         User user = userService.get(userId);
-        if (verifyRole(user, roleNameAdmin) || verifyRole(user, roleNameUser)) {
+        if (verifyRole(user, roleName)) {
             processAuthenticated(filterChain, httpServletRequest, httpServletResponse);
+            return;
         } else {
             processDenied(httpServletRequest, httpServletResponse);
         }
