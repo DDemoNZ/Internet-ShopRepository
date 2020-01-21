@@ -1,0 +1,204 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: dodgerblue;
+    /*text-align: center;*/
+    font-size: 20px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding-bottom: 10%;
+    width: 25%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    /*overflow: auto;*/
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+title {
+    padding: 15px 0px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2.menu {
+    font-size: 15px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+table, td, th {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 15px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    padding: 16px;
+    background-color: white;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+hr {
+    border: 1px solid #000000;
+    /*margin-bottom: 25px;*/
+}
+
+.registerbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    text-align: center;
+}
+
+.registerbtn:hover {
+    opacity: 1;
+}
+
+.signin {
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+button.re {
+    background-color: #030daf;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    text-align: center;
+}
+
+button.complete {
+    background-color: #0a791d;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    text-align: center;
+}
+
+button.toBucket {
+    background-color: #0a791d;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    text-align: center;
+}
+
+button.addItem {
+    background-color: #0a791d;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    text-align: center;
+}
+
+img.gendalf {
+    width: 60%;
+}
+
+b.menu {
+
+}
+
+b.title {
+    padding-left: 25%;
+}
+
+div.NotPass {
+    font-size: 50px;
+    padding-left: 40%;
+    align-content: center;
+}
+
+div.access {
+    font-size: 20px;
+    align-content: center;
+    padding-left: 50%;
+}
+
+div.errorLogin {
+    font-size: 30px;
+    color: darkred;
+    text-align: center;
+}
+
+div.tables {
+    margin-left:25%;
+    padding:1px 16px 10px;
+}
+/*html {*/
+/*    overflow: hidden;*/
+/*}*/

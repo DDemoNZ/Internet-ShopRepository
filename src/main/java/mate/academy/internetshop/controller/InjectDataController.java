@@ -11,7 +11,7 @@ import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
-public class RegistrationController extends HttpServlet {
+public class InjectDataController extends HttpServlet {
 
     @Inject
     private static UserService userService;
@@ -19,19 +19,15 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
-    }
+        User user = new User("user");
+        user.addRole(Role.of("USER"));
+        user.setPassword("user");
+        userService.create(user);
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
-        User newUser = new User(req.getParameter("username"));
-        newUser.setPassword(req.getParameter("password"));
-        newUser.setFirstName(req.getParameter("first_name"));
-        newUser.setSecondName(req.getParameter("second_name"));
-        newUser.addRole(Role.of("USER"));
-        User user = userService.create(newUser);
+        User admin = new User("admin");
+        admin.setPassword("admin");
+        admin.addRole(Role.of("ADMIN"));
+        userService.create(admin);
 
         resp.sendRedirect(req.getContextPath() + "/login");
     }
