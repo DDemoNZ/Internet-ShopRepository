@@ -6,10 +6,11 @@ import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.db.Storage;
+import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
 import mate.academy.internetshop.model.Item;
 
-//@Dao
+@Dao
 public class ItemDaoImpl implements ItemDao {
 
     @Override
