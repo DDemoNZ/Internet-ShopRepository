@@ -15,6 +15,10 @@ public class Role {
         this.roleName = roleName;
     }
 
+    public static Role of(String roleName) {
+        return new Role(RoleName.valueOf(roleName));
+    }
+
     public Long getId() {
         return id;
     }
@@ -27,11 +31,7 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public static Role of(String roleName) {
-        return new Role(RoleName.valueOf(roleName));
-    }
-
     public enum RoleName {
-        USER, ADMIN;
+        USER, ADMIN
     }
 }
