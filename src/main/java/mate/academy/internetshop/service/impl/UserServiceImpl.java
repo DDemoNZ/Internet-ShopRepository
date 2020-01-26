@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import javax.naming.AuthenticationException;
 
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Inject;
@@ -50,12 +49,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String username, String password) throws AuthenticationException {
-        Optional<User> userByUsername = userDao.getByUsername(username);
-        if (userByUsername.isEmpty() || !userByUsername.get().getPassword().equals(password)) {
-            throw new AuthenticationException("Invalid login or password");
-        }
-        return userByUsername.get();
+    public User login(String username, String password)
+            throws mate.academy.internetshop.exceptions.AuthenticationException {
+        return userDao.login(username, password);
     }
 
     @Override

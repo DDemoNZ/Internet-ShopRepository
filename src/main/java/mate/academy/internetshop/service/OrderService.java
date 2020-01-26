@@ -20,4 +20,6 @@ public interface OrderService {
     List<Order> getUserOrders(User user);
 
     List<Order> getAll();
+
+    void deleteUsersOrder(Long userId);
 }

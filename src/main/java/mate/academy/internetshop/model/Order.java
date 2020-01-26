@@ -16,6 +16,13 @@ public class Order {
         this.userId = user.getUserId();
     }
 
+    public Order(Long userId, Long orderId, List<Item> items, Double allPrice) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.items = items;
+        this.allPrice = allPrice;
+    }
+
     public Double getAllPrice() {
         return allPrice;
     }

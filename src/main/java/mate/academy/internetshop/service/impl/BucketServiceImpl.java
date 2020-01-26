@@ -2,6 +2,7 @@ package mate.academy.internetshop.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
@@ -75,9 +76,9 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket getByUserId(Long userId) {
-        return getAll().stream()
+        Optional<Bucket> bucket = getAll().stream()
                 .filter(b -> b.getUserId().equals(userId))
-                .findFirst()
-                .orElse(create(new Bucket(userId)));
+                .findFirst();
+        return bucket.orElseGet(() -> create(new Bucket(userId)));
     }
 }

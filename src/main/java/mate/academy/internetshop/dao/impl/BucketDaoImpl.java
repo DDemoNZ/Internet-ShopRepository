@@ -9,6 +9,7 @@ import mate.academy.internetshop.db.Storage;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
 import mate.academy.internetshop.model.Bucket;
+import mate.academy.internetshop.model.Item;
 
 @Dao
 public class BucketDaoImpl implements BucketDao {
@@ -50,5 +51,25 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public List<Bucket> getAll() {
         return Storage.buckets;
+    }
+
+    @Override
+    public Bucket clear(Long bucketId) {
+        return null;
+    }
+
+    @Override
+    public void addItemToBucket(Long bucketId, Long itemId) {
+
+    }
+
+    @Override
+    public void deleteItemsFromBucket(Long bucketId, Long itemId) {
+
+    }
+
+    @Override
+    public List<Item> getItemsFromBucket(Long bucketId) {
+        return null;
     }
 }

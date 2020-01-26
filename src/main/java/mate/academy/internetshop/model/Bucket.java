@@ -14,6 +14,12 @@ public class Bucket {
         this.userId = userId;
     }
 
+    public Bucket(List<Item> items, Long userId, Long bucketId) {
+        this.items = items;
+        this.userId = userId;
+        this.bucketId = bucketId;
+    }
+
     public Long getUserId() {
         return userId;
     }

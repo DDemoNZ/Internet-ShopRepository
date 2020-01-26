@@ -38,7 +38,8 @@ public class LoginController extends HttpServlet {
             HttpSession httpSession = req.getSession(true);
             httpSession.setAttribute("user_id", user.getUserId());
             resp.sendRedirect(req.getContextPath() + "/servlet/index");
-        } catch (AuthenticationException e) {
+        } catch (mate.academy.internetshop.exceptions.AuthenticationException
+                | AuthenticationException e) {
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }

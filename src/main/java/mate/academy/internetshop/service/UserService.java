@@ -17,7 +17,8 @@ public interface UserService {
 
     List<User> getAll();
 
-    User login(String username, String password) throws AuthenticationException;
+    User login(String username, String password) throws AuthenticationException,
+            mate.academy.internetshop.exceptions.AuthenticationException;
 
     Optional<User> getByToken(String token);
 }
