@@ -81,6 +81,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>DeleteOrdersManage</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.order.controller.ManageDeleteOrdersController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteOrdersManage</servlet-name>
+        <url-pattern>/servlet/deleteOrderManage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>GetBucket</servlet-name>
         <servlet-class>mate.academy.internetshop.controller.bucket.controller.GetBucketController</servlet-class>
     </servlet>

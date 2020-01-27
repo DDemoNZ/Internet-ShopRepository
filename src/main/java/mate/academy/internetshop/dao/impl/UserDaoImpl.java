@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.db.Storage;
-import mate.academy.internetshop.exceptions.AuthenticationException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
 import mate.academy.internetshop.model.User;
@@ -67,12 +66,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User login(String username, String password) throws AuthenticationException {
+    public Optional<User> login(String username) {
         return null;
     }
 
-    @Override
-    public boolean checkLogin(String login) {
-        return false;
-    }
 }

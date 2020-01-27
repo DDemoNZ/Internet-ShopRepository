@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     @Inject
     private static ItemDao itemDao;
 
-    private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
+    private static Logger logger = Logger.getLogger(BucketDaoJdbcImpl.class);
 
     public BucketDaoJdbcImpl(Connection connection) {
         super(connection);
@@ -43,7 +44,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             }
             bucket.setBucketId(bucketId);
         } catch (SQLException e) {
-            logger.warn("Can't create bucket", e);
+            logger.error("Can't create bucket", e);
         }
         return bucket;
     }
@@ -64,7 +65,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 return Optional.of(bucket);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get user id with bucket id " + bucketId, e);
+            logger.error("Can't get user id with bucket id " + bucketId, e);
         }
         return Optional.empty();
     }
@@ -83,7 +84,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 items.add(itemDao.get(itemId).get());
             }
         } catch (SQLException e) {
-            logger.warn("Can't get items from bucket with bucket id" + bucketId, e);
+            logger.error("Can't get items from bucket with bucket id" + bucketId, e);
         }
         return items;
     }
@@ -96,7 +97,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             statement.setLong(1, bucket.getBucketId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.warn("Can't update (D) bucket with id " + bucket.getBucketId(), e);
+            logger.error("Can't update (D) bucket with id " + bucket.getBucketId(), e);
         }
 
         String addItems = "INSERT INTO bucket_items (bucket_id, item_id) VALUES (?, ?);";
@@ -107,31 +108,10 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            logger.warn("Can't update (I) bucket with id " + bucket.getBucketId(), e);
+            logger.error("Can't update (I) bucket with id " + bucket.getBucketId(), e);
         }
 
         return bucket;
-    }
-
-    private List<Item> getBucketsItemsId(Long bucketId) {
-        String query = "SELECT items.item_id, name, price FROM items JOIN bucket_items "
-                + "ON items.item_id = buckets_items.item_id WHERE bucket_id = ?;";
-        List<Item> itemList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, bucketId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                long itemId = resultSet.getLong("items.item_id");
-                String name = resultSet.getString("name");
-                Double price = resultSet.getDouble("price");
-                Item item = new Item(name, price);
-                item.setItemId(itemId);
-                itemList.add(item);
-            }
-        } catch (SQLException e) {
-            logger.warn("Can't get buckets items id from bucket with id " + bucketId, e);
-        }
-        return itemList;
     }
 
     @Override
@@ -146,7 +126,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.warn("Can't delete bucket with id " + bucketId, e);
+            logger.error("Can't delete bucket with id " + bucketId, e);
         }
         return false;
     }
@@ -163,7 +143,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 itemList.add(itemDao.get(itemId).get());
             }
         } catch (SQLException e) {
-            logger.warn("Can't get items from bucket with id " + bucketId, e);
+            logger.error("Can't get items from bucket with id " + bucketId, e);
         }
         return itemList;
     }
@@ -176,7 +156,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             statement.setLong(2, itemId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.warn("Can't delete items with id " + itemId
+            logger.error("Can't delete items with id " + itemId
                     + " from bucket with id " + bucketId, e);
         }
     }
@@ -194,9 +174,9 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             }
             return buckets;
         } catch (SQLException e) {
-            logger.warn("Can't get all buckets", e);
+            logger.error("Can't get all buckets", e);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -207,7 +187,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             statement.setLong(2, itemId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.warn("Can't add item to bucket with id " + bucketId, e);
+            logger.error("Can't add item to bucket with id " + bucketId, e);
         }
     }
 

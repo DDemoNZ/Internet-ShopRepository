@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.exceptions.AuthenticationException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Bucket;
@@ -31,12 +29,9 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     private static OrderService orderService;
 
     @Inject
-    private static BucketDao bucketDao;
-
-    @Inject
     private static BucketService bucketService;
 
-    private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
+    private static Logger logger = Logger.getLogger(UserDaoJdbcImpl.class);
 
     public UserDaoJdbcImpl(Connection connection) {
         super(connection);
@@ -55,7 +50,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             }
             return get(userId);
         } catch (SQLException e) {
-            logger.warn("Can't get user by username(login)", e);
+            logger.error("Can't get user by username(login)", e);
         }
 
         return Optional.empty();
@@ -63,7 +58,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> getByToken(String token) {
-        String query = "SELECT user_id FROM users WHERE token = ?;";
+        String query = "SELECT * FROM users WHERE token = ?;";
         Long userId = null;
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -74,14 +69,14 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             }
             return get(userId);
         } catch (SQLException e) {
-            logger.warn("Can't find user by token", e);
+            logger.error("Can't find user by token", e);
         }
 
         return Optional.empty();
     }
 
     @Override
-    public User login(String username, String password) throws AuthenticationException {
+    public Optional<User> login(String username) {
         String query = "SELECT user_id FROM users WHERE login = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -89,17 +84,14 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long userId = resultSet.getLong("user_id");
-                Optional<User> user = get(userId);
-                if (user.isEmpty() || !user.get().getPassword().equals(password)) {
-                    throw new AuthenticationException("Invalid login or password");
-                }
-                return user.get();
+
+                return get(userId);
             }
         } catch (SQLException e) {
-            logger.warn("Can't wind user with login + " + username, e);
+            logger.error("Can't wind user with login + " + username, e);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -133,7 +125,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             }
             bucketService.create(new Bucket(user.getUserId()));
         } catch (SQLException e) {
-            logger.warn("Can't create user", e);
+            logger.error("Can't create user", e);
         }
 
         return user;
@@ -148,7 +140,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             statement1.setLong(2, roleId); //DEFAULT ROLE USER
             statement1.executeUpdate();
         } catch (SQLException e) {
-            logger.warn("Can't add role to user with id " + userId, e);
+            logger.error("Can't add role to user with id " + userId, e);
         }
     }
 
@@ -180,7 +172,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
                 return Optional.of(user);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get user with id " + userId, e);
+            logger.error("Can't get user with id " + userId, e);
         }
 
         return Optional.empty();
@@ -202,7 +194,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
                 roles.add(Role.of(roleName));
             }
         } catch (SQLException e) {
-            logger.warn("Can't get user's role", e);
+            logger.error("Can't get user's role", e);
         }
 
         return roles;
@@ -223,7 +215,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             statement.setLong(6, user.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.warn("Can't update user with id " + user.getUserId(), e);
+            logger.error("Can't update user with id " + user.getUserId(), e);
         }
 
         return user;
@@ -246,7 +238,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.warn("Can't delete user with id " + userId, e);
+            logger.error("Can't delete user with id " + userId, e);
         }
 
         return false;
@@ -259,7 +251,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             statement.setLong(1, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.warn("Can't delete user's role by user_id " + userId, e);
+            logger.error("Can't delete user's role by user_id " + userId, e);
         }
     }
 
@@ -276,24 +268,9 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get users", e);
+            logger.error("Can't get users", e);
         }
 
         return users;
-    }
-
-    @Override
-    public boolean checkLogin(String login) {
-        String query = "SELECT * FROM users WHERE login = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, login);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
-        } catch (SQLException e) {
-            logger.warn("Can't find login with login" + login, e);
-        }
-
-        return true;
     }
 }

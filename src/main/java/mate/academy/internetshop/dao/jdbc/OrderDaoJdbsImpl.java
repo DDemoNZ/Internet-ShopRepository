@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
@@ -20,9 +18,7 @@ import org.apache.log4j.Logger;
 @Dao
 public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
 
-    @Inject
-    private static ItemDao itemDao;
-    private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
+    private static Logger logger = Logger.getLogger(OrderDaoJdbsImpl.class);
 
     public OrderDaoJdbsImpl(Connection connection) {
         super(connection);
@@ -43,14 +39,13 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             while (generatedKeys.next()) {
                 orderId = generatedKeys.getLong(1);
             }
-            Order newOrder = new Order(order.getUserId(), orderId, order.getItems(),
-                    order.getAllPrice());
-            addOrderItems(newOrder, order.getItems());
+            order.setOrderId(orderId);
+            addOrderItems(order, order.getItems());
         } catch (SQLException e) {
-            logger.warn("Can't create order", e);
+            logger.error("Can't create order", e);
         }
 
-        return new Order(order.getUserId(), orderId, order.getItems(), order.getAllPrice());
+        return order;
     }
 
     private void addOrderItems(Order newOrder, List<Item> items) {
@@ -63,7 +58,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 statement.setLong(2, item.getItemId());
                 statement.executeUpdate();
             } catch (SQLException e) {
-                logger.warn("Cant insert order's items into DB", e);
+                logger.error("Cant insert order's items into DB", e);
             }
         }
     }
@@ -85,7 +80,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 return Optional.of(order);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get from DB order with id " + orderId, e);
+            logger.error("Can't get from DB order with id " + orderId, e);
         }
 
         return Optional.empty();
@@ -108,7 +103,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 itemList.add(item);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get orders items from order id " + orderId1, e);
+            logger.error("Can't get orders items from order id " + orderId1, e);
         }
 
         return itemList;
@@ -116,11 +111,12 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public Order update(Order order) {
-        String query = "UPDATE orders SET user_id = ? WHERE order_id = ?;";
+        String query = "UPDATE orders SET user_id = ?, amount_price = ? WHERE order_id = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, order.getUserId());
-            statement.setLong(2, order.getOrderId());
+            statement.setDouble(2, order.getAllPrice());
+            statement.setLong(3, order.getOrderId());
             statement.executeUpdate();
             List<Item> oldO = getItemsFromOrder(order.getOrderId());
             List<Item> newO = order.getItems();
@@ -131,16 +127,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             toAdd.removeAll(oldO);
             addOrderItems(order, toAdd);
         } catch (SQLException e) {
-            logger.warn("Can't update order with id " + order.getOrderId(), e);
-        }
-
-        String updateAmountPrice = "UPDATE orders SET amount_price = ? WHERE order_id = ?;";
-        try (PreparedStatement statement = connection.prepareStatement(updateAmountPrice)) {
-            statement.setDouble(1, order.getAllPrice());
-            statement.setLong(2, order.getOrderId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.warn("Can't update amount price", e);
+            logger.error("Can't update order with id " + order.getOrderId(), e);
         }
 
         return order;
@@ -156,7 +143,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            logger.warn("Can't delete items from order with id " + order.getOrderId(), e);
+            logger.error("Can't delete items from order with id " + order.getOrderId(), e);
         }
     }
 
@@ -173,7 +160,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.warn("Can't delete order with id " + orderId, e);
+            logger.error("Can't delete order with id " + orderId, e);
         }
 
         return false;
@@ -195,7 +182,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get all orders from db", e);
+            logger.error("Can't get all orders from db", e);
         }
 
         return orders;
@@ -216,7 +203,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 return amountPrice;
             }
         } catch (SQLException e) {
-            logger.warn("Can't count amount price from order with id " + orderId, e);
+            logger.error("Can't count amount price from order with id " + orderId, e);
         }
 
         return amountPrice;
@@ -240,7 +227,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 orderList.add(order);
             }
         } catch (SQLException e) {
-            logger.warn("Can't get user's orders with id " + user.getUserId(), e);
+            logger.error("Can't get user's orders with id " + user.getUserId(), e);
         }
 
         return orderList;

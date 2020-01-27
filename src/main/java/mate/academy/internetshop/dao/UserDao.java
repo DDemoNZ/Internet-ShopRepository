@@ -2,7 +2,6 @@ package mate.academy.internetshop.dao;
 
 import java.util.Optional;
 
-import mate.academy.internetshop.exceptions.AuthenticationException;
 import mate.academy.internetshop.model.User;
 
 public interface UserDao extends GenericDao<User, Long> {
@@ -11,7 +10,5 @@ public interface UserDao extends GenericDao<User, Long> {
 
     Optional<User> getByToken(String token);
 
-    User login(String username, String password) throws AuthenticationException;
-
-    boolean checkLogin(String login);
+    Optional<User> login(String username);
 }
