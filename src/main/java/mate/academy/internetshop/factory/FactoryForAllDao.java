@@ -48,7 +48,6 @@ public class FactoryForAllDao {
     }
 
     public static BucketDao getBucketDao() {
-        //return bucketDao == null ? new BucketDaoImpl() : bucketDao;
         return new BucketDaoJdbcImpl(connection);
     }
 
@@ -58,7 +57,6 @@ public class FactoryForAllDao {
 
     public static OrderDao getOrderDao() {
         return new OrderDaoJdbsImpl(connection);
-        //return orderDao == null ? new OrderDaoImpl() : orderDao;
     }
 
     public static UserDao getUserDao() {

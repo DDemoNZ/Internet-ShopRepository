@@ -2,6 +2,7 @@ package mate.academy.internetshop.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Bucket {
 
@@ -42,6 +43,25 @@ public class Bucket {
 
     public void setBucketId(Long bucketId) {
         this.bucketId = bucketId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Bucket bucket = (Bucket) o;
+        return Objects.equals(items, bucket.items)
+                && Objects.equals(userId, bucket.userId)
+                && Objects.equals(bucketId, bucket.bucketId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(items, userId, bucketId);
     }
 
     @Override

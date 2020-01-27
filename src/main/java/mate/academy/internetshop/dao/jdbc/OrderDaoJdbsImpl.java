@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 @Dao
 public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
 
-    private static final String DB_NAME = "internetshop";
     @Inject
     private static ItemDao itemDao;
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
@@ -34,10 +33,12 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
 
         String query = "INSERT INTO internetshop.orders (user_id, amount_price) VALUES (?, ?);";
         Long orderId = null;
+
         try (PreparedStatement statement = connection.prepareStatement(query,
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, order.getUserId());
             statement.setDouble(2, order.getAllPrice());
+            statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             while (generatedKeys.next()) {
                 orderId = generatedKeys.getLong(1);
@@ -48,13 +49,14 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't create order", e);
         }
-        return new Order(order.getUserId(), orderId, order.getItems(),
-                order.getAllPrice());
+
+        return new Order(order.getUserId(), orderId, order.getItems(), order.getAllPrice());
     }
 
     private void addOrderItems(Order newOrder, List<Item> items) {
         String insertOrderItemQuery =
                 "INSERT INTO orders_items (order_id, item_id) VALUES (?, ?);";
+
         for (Item item : items) {
             try (PreparedStatement statement = connection.prepareStatement(insertOrderItemQuery)) {
                 statement.setLong(1, newOrder.getOrderId());
@@ -75,9 +77,9 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             statement.setLong(1, orderId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                long userId = resultSet.getLong("user_id");
-                double amountPrice = resultSet.getDouble("amount_price");
-                long orderId1 = resultSet.getLong("order_id");
+                Long userId = resultSet.getLong("user_id");
+                Double amountPrice = resultSet.getDouble("amount_price");
+                Long orderId1 = resultSet.getLong("order_id");
                 List<Item> orderItems = getItemsFromOrder(orderId1);
                 Order order = new Order(userId, orderId1, orderItems, amountPrice);
                 return Optional.of(order);
@@ -85,6 +87,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't get from DB order with id " + orderId, e);
         }
+
         return Optional.empty();
     }
 
@@ -92,6 +95,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         String query = "SELECT items.item_id, name, price FROM items JOIN orders_items ON"
                 + " items.item_id = orders_items.item_id AND order_id = ?;";
         List<Item> itemList = new ArrayList<>();
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, orderId1);
             ResultSet resultSet = statement.executeQuery();
@@ -106,12 +110,14 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't get orders items from order id " + orderId1, e);
         }
+
         return itemList;
     }
 
     @Override
     public Order update(Order order) {
         String query = "UPDATE orders SET user_id = ? WHERE order_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, order.getUserId());
             statement.setLong(2, order.getOrderId());
@@ -127,11 +133,13 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't update order with id " + order.getOrderId(), e);
         }
+
         return order;
     }
 
     private void deleteItemsFromOrder(Order order, List<Item> toDelete) {
         String query = "DELETE FROM orders_items WHERE order_id = ? AND item_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             for (Item item : toDelete) {
                 statement.setLong(1, order.getOrderId());
@@ -145,7 +153,12 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public boolean delete(Long orderId) {
+        Order order = get(orderId).get();
+        List<Item> itemsFromOrder = order.getItems();
+        deleteItemsFromOrder(order, itemsFromOrder);
+
         String query = "DELETE FROM orders WHERE order_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, orderId);
             statement.executeUpdate();
@@ -153,6 +166,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't delete order with id " + orderId, e);
         }
+
         return false;
     }
 
@@ -160,12 +174,13 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
     public List<Order> getAll() {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                long userId = resultSet.getLong("user_id");
-                long orderId = resultSet.getLong("order_id");
-                double amountPrice = resultSet.getDouble("amount_price");
+                Long userId = resultSet.getLong("user_id");
+                Long orderId = resultSet.getLong("order_id");
+                Double amountPrice = resultSet.getDouble("amount_price");
                 List<Item> itemsFromOrder = getItemsFromOrder(orderId);
                 Order order = new Order(userId, orderId, itemsFromOrder, amountPrice);
                 orders.add(order);
@@ -173,6 +188,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't get all orders from db", e);
         }
+
         return orders;
     }
 
@@ -182,6 +198,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 + " ON orders.order_id = orders_items.order_id JOIN items"
                 + " ON orders_items.item_id = items.item_id WHERE orders.order_id = ?;";
         Double amountPrice = null;
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, orderId);
             ResultSet resultSet = statement.executeQuery();
@@ -192,6 +209,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't count amount price from order with id " + orderId, e);
         }
+
         return amountPrice;
     }
 
@@ -199,8 +217,8 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
     public List<Order> getAllOrdersForUser(User user) {
 
         List<Order> orderList = new ArrayList<>();
-
         String getUsersOrdersQuery = "SELECT * FROM orders WHERE user_id = ?";
+
         try (PreparedStatement statement = connection.prepareStatement(getUsersOrdersQuery)) {
             statement.setLong(1, user.getUserId());
             ResultSet resultSet = statement.executeQuery();
@@ -215,6 +233,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         } catch (SQLException e) {
             logger.warn("Can't get user's orders with id " + user.getUserId(), e);
         }
+
         return orderList;
     }
 }

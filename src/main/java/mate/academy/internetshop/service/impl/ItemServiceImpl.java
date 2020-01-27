@@ -40,5 +40,4 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAll() {
         return itemDao.getAll();
     }
-
 }

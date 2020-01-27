@@ -21,4 +21,6 @@ public interface UserService {
             mate.academy.internetshop.exceptions.AuthenticationException;
 
     Optional<User> getByToken(String token);
+
+    boolean checkLogin(String login);
 }

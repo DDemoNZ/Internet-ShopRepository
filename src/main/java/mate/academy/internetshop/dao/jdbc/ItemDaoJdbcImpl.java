@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 @Dao
 public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
 
-    private static final String DB_NAME = "internetshop";
     private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
 
     public ItemDaoJdbcImpl(Connection connection) {
@@ -27,6 +26,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     public Item create(Item item) {
         String query = "INSERT INTO items (name, price) VALUES (?, ?);";
         Item newItem = new Item(item.getName(), item.getPrice());
+
         try (PreparedStatement statement = connection.prepareStatement(query,
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
@@ -46,6 +46,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     @Override
     public Optional<Item> get(Long itemId) {
         String query = "SELECT * FROM items WHERE item_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, itemId);
             ResultSet resultSet = statement.executeQuery();
@@ -66,6 +67,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     @Override
     public Item update(Item item) {
         String query = "UPDATE items SET name = ?, price = ? WHERE item_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, item.getName());
             statement.setDouble(2, item.getPrice());
@@ -80,6 +82,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     @Override
     public boolean delete(Long itemId) {
         String query = "DELETE FROM items WHERE item_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, itemId);
             statement.executeUpdate();
@@ -94,6 +97,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
     public List<Item> getAll() {
         List<Item> itemList = new ArrayList<>();
         String query = "SELECT * FROM items;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {

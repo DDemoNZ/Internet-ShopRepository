@@ -58,4 +58,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getByToken(String token) {
         return userDao.getByToken(token);
     }
+
+    @Override
+    public boolean checkLogin(String login) {
+        return userDao.checkLogin(login);
+    }
 }

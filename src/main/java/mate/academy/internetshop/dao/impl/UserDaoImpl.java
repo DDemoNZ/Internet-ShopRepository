@@ -70,4 +70,9 @@ public class UserDaoImpl implements UserDao {
     public User login(String username, String password) throws AuthenticationException {
         return null;
     }
+
+    @Override
+    public boolean checkLogin(String login) {
+        return false;
+    }
 }

@@ -10,9 +10,9 @@
 <body>
 
 <ul class="menu">
-    <h2 class="menu"><b>REG/LOG</b></h2>
     <li><a href="${pageContext.request.contextPath}/servlet/index">Main page</a></li>
     <hr>
+    <h2 class="menu"><b>REG/LOG</b></h2>
     <li><a href="${pageContext.request.contextPath}/registration">Registration</a></li>
     <li><a href="${pageContext.request.contextPath}/login">LogIn</a></li>
     <li><a href="${pageContext.request.contextPath}/logout">LogOut</a></li>

@@ -31,6 +31,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     @Override
     public Bucket create(Bucket bucket) {
         String query = "INSERT INTO buckets (user_id) VALUES (?);";
+
         try (PreparedStatement statement = connection.prepareStatement(query,
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, bucket.getUserId());
@@ -50,6 +51,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     @Override
     public Optional<Bucket> get(Long bucketId) {
         String query = "SELECT * FROM buckets WHERE bucket_id = ?;";
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, bucketId);
             ResultSet resultSet = statement.executeQuery();
@@ -72,6 +74,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
         String query = "SELECT item_id FROM buckets INNER JOIN bucket_items ON buckets.bucket_id "
                 + "= bucket_items.bucket_id WHERE bucket_items.bucket_id = ?;";
         List<Item> items = new ArrayList<>();
+
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, bucketId);
             ResultSet resultSet = statement.executeQuery();
@@ -87,28 +90,26 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
 
     @Override
     public Bucket update(Bucket bucket) {
-        String query = "UPDATE buckets SET user_id = ? WHERE bucket_id = ?;";
-        Long bucketId = bucket.getBucketId();
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, bucket.getUserId());
-            statement.setLong(2, bucketId);
-            statement.executeUpdate();
+        String deleteItems = "DELETE FROM bucket_items WHERE bucket_id = ?;";
 
-            List<Item> oldI = getItemsFromBucket(bucketId);
-            List<Item> newI = bucket.getItems();
-            List<Item> toDel = new ArrayList<>(oldI);
-            toDel.addAll(newI);
-            for (Item item:toDel) {
-                deleteItemsFromBucket(bucketId, item.getItemId());
-            }
-            List<Item> toAdd = new ArrayList<>(newI);
-            toAdd.removeAll(oldI);
-            for (Item item:toAdd) {
-                addItemToBucket(bucketId, item.getItemId());
+        try (PreparedStatement statement = connection.prepareStatement(deleteItems)) {
+            statement.setLong(1, bucket.getBucketId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.warn("Can't update (D) bucket with id " + bucket.getBucketId(), e);
+        }
+
+        String addItems = "INSERT INTO bucket_items (bucket_id, item_id) VALUES (?, ?);";
+        try (PreparedStatement statement = connection.prepareStatement(addItems)) {
+            for (Item item : bucket.getItems()) {
+                statement.setLong(1, bucket.getBucketId());
+                statement.setLong(2, item.getItemId());
+                statement.executeUpdate();
             }
         } catch (SQLException e) {
-            logger.warn("Can't update bucket with id " + bucket.getBucketId(), e);
+            logger.warn("Can't update (I) bucket with id " + bucket.getBucketId(), e);
         }
+
         return bucket;
     }
 
