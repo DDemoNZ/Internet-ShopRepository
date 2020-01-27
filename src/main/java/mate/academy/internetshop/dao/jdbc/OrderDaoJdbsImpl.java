@@ -134,6 +134,15 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             logger.warn("Can't update order with id " + order.getOrderId(), e);
         }
 
+        String updateAmountPrice = "UPDATE orders SET amount_price = ? WHERE order_id = ?;";
+        try (PreparedStatement statement = connection.prepareStatement(updateAmountPrice)) {
+            statement.setDouble(1, order.getAllPrice());
+            statement.setLong(2, order.getOrderId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.warn("Can't update amount price", e);
+        }
+
         return order;
     }
 

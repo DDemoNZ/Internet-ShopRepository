@@ -234,7 +234,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         deleteUsersRoles(userId);
         User user = get(userId).get();
 
-        for (Order order:orderService.getUserOrders(user)) {
+        for (Order order : orderService.getUserOrders(user)) {
             orderService.delete(order.getOrderId());
         }
 
