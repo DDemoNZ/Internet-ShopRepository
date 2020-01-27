@@ -5,17 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
-import org.apache.log4j.Logger;
 
 @Dao
 public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao {
@@ -23,14 +22,12 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     @Inject
     private static ItemDao itemDao;
 
-    private static Logger logger = Logger.getLogger(BucketDaoJdbcImpl.class);
-
     public BucketDaoJdbcImpl(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Bucket create(Bucket bucket) {
+    public Bucket create(Bucket bucket) throws DataProcessingException {
         String query = "INSERT INTO buckets (user_id) VALUES (?);";
 
         try (PreparedStatement statement = connection.prepareStatement(query,
@@ -44,13 +41,13 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             }
             bucket.setBucketId(bucketId);
         } catch (SQLException e) {
-            logger.error("Can't create bucket", e);
+            throw new DataProcessingException("Can't create bucket \n" + e);
         }
         return bucket;
     }
 
     @Override
-    public Optional<Bucket> get(Long bucketId) {
+    public Optional<Bucket> get(Long bucketId) throws DataProcessingException {
         String query = "SELECT * FROM buckets WHERE bucket_id = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -65,13 +62,13 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 return Optional.of(bucket);
             }
         } catch (SQLException e) {
-            logger.error("Can't get user id with bucket id " + bucketId, e);
+            throw new DataProcessingException("Can't get bucket with id " + bucketId + "\n" + e);
         }
         return Optional.empty();
     }
 
     @Override
-    public List<Item> getItemsFromBucket(Long bucketId) {
+    public List<Item> getItemsFromBucket(Long bucketId) throws DataProcessingException {
         String query = "SELECT item_id FROM buckets INNER JOIN bucket_items ON buckets.bucket_id "
                 + "= bucket_items.bucket_id WHERE bucket_items.bucket_id = ?;";
         List<Item> items = new ArrayList<>();
@@ -84,20 +81,22 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 items.add(itemDao.get(itemId).get());
             }
         } catch (SQLException e) {
-            logger.error("Can't get items from bucket with bucket id" + bucketId, e);
+            throw new DataProcessingException("Can't get items from buckt with id " + bucketId
+                    + "\n" + e);
         }
         return items;
     }
 
     @Override
-    public Bucket update(Bucket bucket) {
+    public Bucket update(Bucket bucket) throws DataProcessingException {
         String deleteItems = "DELETE FROM bucket_items WHERE bucket_id = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(deleteItems)) {
             statement.setLong(1, bucket.getBucketId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can't update (D) bucket with id " + bucket.getBucketId(), e);
+            throw new DataProcessingException("Can't update(d) bucket with id "
+                    + bucket.getBucketId() + "\n" + e);
         }
 
         String addItems = "INSERT INTO bucket_items (bucket_id, item_id) VALUES (?, ?);";
@@ -108,61 +107,40 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            logger.error("Can't update (I) bucket with id " + bucket.getBucketId(), e);
+            throw new DataProcessingException("Can't update(i) bucket with id "
+                    + bucket.getBucketId() + "\n" + e);
         }
-
         return bucket;
     }
 
     @Override
-    public boolean delete(Long bucketId) {
+    public boolean delete(Long bucketId) throws DataProcessingException {
         String query = "DELETE FROM buckets WHERE bucket_id = ?;";
-        List<Item> allItemsFromBucket = getAllItemsFromBucket(bucketId);
-        for (Item item : allItemsFromBucket) {
-            deleteItemsFromBucket(bucketId, item.getItemId());
-        }
+        deleteItemsFromBucket(bucketId);
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, bucketId);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Can't delete bucket with id " + bucketId, e);
+            throw new DataProcessingException("Can't delete bucket with id " + bucketId
+                    + "\n" + e);
         }
-        return false;
-    }
-
-    private List<Item> getAllItemsFromBucket(Long bucketId) {
-        String query = "SELECT item_id FROM buckets INNER JOIN bucket_items"
-                + " ON buckets.bucket_id = buckets_items.bucket_id WHERE buckets.bucket_id = ?;";
-        List<Item> itemList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, bucketId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                long itemId = resultSet.getLong("item_id");
-                itemList.add(itemDao.get(itemId).get());
-            }
-        } catch (SQLException e) {
-            logger.error("Can't get items from bucket with id " + bucketId, e);
-        }
-        return itemList;
     }
 
     @Override
-    public void deleteItemsFromBucket(Long bucketId, Long itemId) {
-        String query = "DELETE FROM bucket_items WHERE bucket_id = ? AND item_id = ?;";
+    public void deleteItemsFromBucket(Long bucketId) throws DataProcessingException {
+        String query = "DELETE FROM bucket_items WHERE bucket_id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, bucketId);
-            statement.setLong(2, itemId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can't delete items with id " + itemId
-                    + " from bucket with id " + bucketId, e);
+            throw new DataProcessingException("Can't delete items from bucket with id "
+                    + bucketId + "\n" + e);
         }
     }
 
     @Override
-    public List<Bucket> getAll() {
+    public List<Bucket> getAll() throws DataProcessingException {
         String query = "SELECT bucket_id FROM buckets;";
         List<Bucket> buckets = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -174,30 +152,33 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             }
             return buckets;
         } catch (SQLException e) {
-            logger.error("Can't get all buckets", e);
+            throw new DataProcessingException("Can't get all buckets" + "\n" + e);
         }
-        return Collections.emptyList();
     }
 
     @Override
-    public void addItemToBucket(Long bucketId, Long itemId) {
+    public void addItemToBucket(Long bucketId, Long itemId) throws DataProcessingException {
         String query = "INSERT INTO bucket_items (bucket_id, item_id) VALUES (?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, bucketId);
             statement.setLong(2, itemId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can't add item to bucket with id " + bucketId, e);
+            throw new DataProcessingException("Can't add item to bucket with id "
+                    + bucketId + "\n" + e);
         }
     }
 
     @Override
-    public Bucket clear(Long bucketId) {
-        Bucket bucket = get(bucketId).get();
-        List<Item> items = bucket.getItems();
-        for (Item item : items) {
-            deleteItemsFromBucket(bucketId, item.getItemId());
+    public void clear(Long bucketId) throws DataProcessingException {
+        String query = "DELETE FROM bucket_items WHERE bucket_id = ?;";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, bucketId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't clear bucket with id " + bucketId + "\n" + e);
         }
-        return bucket;
     }
 }
+
+

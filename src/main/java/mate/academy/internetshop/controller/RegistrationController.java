@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
@@ -47,7 +48,7 @@ public class RegistrationController extends HttpServlet {
             if (!req.getParameter("password").equals(req.getParameter("password-repeat"))) {
                 throw new AuthenticationException("Passwords don't match");
             }
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException | DataProcessingException e) {
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
             return;
@@ -57,8 +58,11 @@ public class RegistrationController extends HttpServlet {
             User user = userService.create(newUser);
             HttpSession session = req.getSession(true);
             session.setAttribute("user_id", user.getUserId());
-        } catch (Exception e) {
-            logger.warn("Can't reg user", e);
+        } catch (DataProcessingException e) {
+            logger.error(e);
+            req.setAttribute("errorMsg", e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
+            return;
         }
 
         resp.sendRedirect(req.getContextPath() + "/login");

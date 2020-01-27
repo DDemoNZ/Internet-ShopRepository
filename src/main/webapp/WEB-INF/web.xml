@@ -64,7 +64,7 @@
 
     <servlet>
         <servlet-name>GetAllItems</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.item.controller.GetAllItemsManageControllerController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.item.controller.GetAllItemsManageController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllItems</servlet-name>

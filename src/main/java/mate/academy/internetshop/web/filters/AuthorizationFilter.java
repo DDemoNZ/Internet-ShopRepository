@@ -6,6 +6,7 @@ import static mate.academy.internetshop.model.Role.RoleName.USER;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,15 +16,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 public class AuthorizationFilter implements Filter {
 
     @Inject
     private static UserService userService;
+
+    private static Logger logger = Logger.getLogger(AuthorizationFilter.class);
 
     private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
@@ -56,12 +61,23 @@ public class AuthorizationFilter implements Filter {
         }
 
         Long userId = (Long) httpServletRequest.getSession().getAttribute("user_id");
-        User user = userService.get(userId);
-        if (verifyRole(user, roleName)) {
-            processAuthenticated(filterChain, httpServletRequest, httpServletResponse);
-            return;
-        } else {
-            processDenied(httpServletRequest, httpServletResponse);
+        User user = null;
+        try {
+            user = userService.get(userId);
+            if (verifyRole(user, roleName)) {
+                processAuthenticated(filterChain, httpServletRequest, httpServletResponse);
+                return;
+            } else {
+                processDenied(httpServletRequest, httpServletResponse);
+            }
+        } catch (DataProcessingException e) {
+            logger.error(e);
+            httpServletRequest.setAttribute("errorMsg", e.getMessage());
+            httpServletRequest.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp")
+                    .forward(httpServletRequest, httpServletResponse);
+        } catch (NoSuchElementException e) {
+            logger.error(e);
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/logout");
         }
     }
 
@@ -70,12 +86,6 @@ public class AuthorizationFilter implements Filter {
             throws ServletException, IOException {
         httpServletRequest.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp")
                 .forward(httpServletRequest, httpServletResponse);
-    }
-
-    private void processUnAuthenticated(HttpServletRequest httpServletRequest,
-                                        HttpServletResponse httpServletResponse)
-            throws IOException {
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login");
     }
 
     private boolean verifyRole(User user, Role.RoleName roleName) {

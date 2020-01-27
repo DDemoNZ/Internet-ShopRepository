@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Bucket;
@@ -24,28 +25,28 @@ public class OrderServiceImpl implements OrderService {
     private static BucketService bucketService;
 
     @Override
-    public Order create(Order order) {
+    public Order create(Order order) throws DataProcessingException {
         return orderDao.create(order);
     }
 
     @Override
-    public Order get(Long id) {
+    public Order get(Long id) throws DataProcessingException {
         return orderDao.get(id).orElseThrow(()
                 -> new NoSuchElementException("Can't find order with id " + id));
     }
 
     @Override
-    public Order update(Order order) {
+    public Order update(Order order) throws DataProcessingException {
         return orderDao.update(order);
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(Long id) throws DataProcessingException {
         return orderDao.delete(id);
     }
 
     @Override
-    public Order completeOrder(List<Item> items, User user) {
+    public Order completeOrder(List<Item> items, User user) throws DataProcessingException {
         Double allPrice = items.stream()
                 .map(Item::getPrice)
                 .mapToDouble(elem -> elem).sum();
@@ -58,12 +59,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(User user) {
+    public List<Order> getUserOrders(User user) throws DataProcessingException {
         return orderDao.getAllOrdersForUser(user);
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<Order> getAll() throws DataProcessingException {
         return orderDao.getAll();
     }
 }

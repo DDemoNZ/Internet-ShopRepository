@@ -54,8 +54,7 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public Bucket clear(Long bucketId) {
-        return null;
+    public void clear(Long bucketId) {
     }
 
     @Override
@@ -64,7 +63,7 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public void deleteItemsFromBucket(Long bucketId, Long itemId) {
+    public void deleteItemsFromBucket(Long bucketId) {
 
     }
 

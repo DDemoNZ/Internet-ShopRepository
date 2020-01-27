@@ -9,23 +9,21 @@ import java.util.List;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
-import org.apache.log4j.Logger;
 
 @Dao
 public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
-
-    private static Logger logger = Logger.getLogger(OrderDaoJdbsImpl.class);
 
     public OrderDaoJdbsImpl(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Order create(Order order) {
+    public Order create(Order order) throws DataProcessingException {
 
         String query = "INSERT INTO internetshop.orders (user_id, amount_price) VALUES (?, ?);";
         Long orderId = null;
@@ -41,14 +39,14 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             }
             order.setOrderId(orderId);
             addOrderItems(order, order.getItems());
-        } catch (SQLException e) {
-            logger.error("Can't create order", e);
+        } catch (SQLException | DataProcessingException e) {
+            throw new DataProcessingException("Can't create order with id " + orderId + "\n" + e);
         }
 
         return order;
     }
 
-    private void addOrderItems(Order newOrder, List<Item> items) {
+    private void addOrderItems(Order newOrder, List<Item> items) throws DataProcessingException {
         String insertOrderItemQuery =
                 "INSERT INTO orders_items (order_id, item_id) VALUES (?, ?);";
 
@@ -58,13 +56,14 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 statement.setLong(2, item.getItemId());
                 statement.executeUpdate();
             } catch (SQLException e) {
-                logger.error("Cant insert order's items into DB", e);
+                throw new DataProcessingException("Can't insert order's items into DB "
+                        + newOrder.getOrderId() + "\n" + e);
             }
         }
     }
 
     @Override
-    public Optional<Order> get(Long orderId) {
+    public Optional<Order> get(Long orderId) throws DataProcessingException {
 
         String query = "SELECT * FROM orders WHERE order_id = ?;";
 
@@ -80,13 +79,14 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 return Optional.of(order);
             }
         } catch (SQLException e) {
-            logger.error("Can't get from DB order with id " + orderId, e);
+            throw new DataProcessingException("Can't get from DB order with id "
+                    + orderId + "\n" + e);
         }
 
         return Optional.empty();
     }
 
-    private List<Item> getItemsFromOrder(long orderId1) {
+    private List<Item> getItemsFromOrder(long orderId1) throws DataProcessingException {
         String query = "SELECT items.item_id, name, price FROM items JOIN orders_items ON"
                 + " items.item_id = orders_items.item_id AND order_id = ?;";
         List<Item> itemList = new ArrayList<>();
@@ -103,14 +103,15 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 itemList.add(item);
             }
         } catch (SQLException e) {
-            logger.error("Can't get orders items from order id " + orderId1, e);
+            throw new DataProcessingException("Can't get order's items from order with id "
+                    + orderId1 + "\n" + e);
         }
 
         return itemList;
     }
 
     @Override
-    public Order update(Order order) {
+    public Order update(Order order) throws DataProcessingException {
         String query = "UPDATE orders SET user_id = ?, amount_price = ? WHERE order_id = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -127,13 +128,15 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             toAdd.removeAll(oldO);
             addOrderItems(order, toAdd);
         } catch (SQLException e) {
-            logger.error("Can't update order with id " + order.getOrderId(), e);
+            throw new DataProcessingException("Can't update order with id "
+                    + order.getOrderId() + "\n" + e);
         }
 
         return order;
     }
 
-    private void deleteItemsFromOrder(Order order, List<Item> toDelete) {
+    private void deleteItemsFromOrder(Order order, List<Item> toDelete)
+            throws DataProcessingException {
         String query = "DELETE FROM orders_items WHERE order_id = ? AND item_id = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -143,12 +146,13 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            logger.error("Can't delete items from order with id " + order.getOrderId(), e);
+            throw new DataProcessingException("Can't delete items from order with id "
+                    + order.getOrderId() + "\n" + e);
         }
     }
 
     @Override
-    public boolean delete(Long orderId) {
+    public boolean delete(Long orderId) throws DataProcessingException {
         Order order = get(orderId).get();
         List<Item> itemsFromOrder = order.getItems();
         deleteItemsFromOrder(order, itemsFromOrder);
@@ -160,14 +164,13 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Can't delete order with id " + orderId, e);
+            throw new DataProcessingException("Can't delete order with id "
+                    + orderId + "\n" + e);
         }
-
-        return false;
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<Order> getAll() throws DataProcessingException {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders;";
 
@@ -182,13 +185,13 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            logger.error("Can't get all orders from db", e);
+            throw new DataProcessingException("Can't get all orders from DB " + "\n" + e);
         }
 
         return orders;
     }
 
-    public Double getAmountPrice(Long orderId) {
+    public Double getAmountPrice(Long orderId) throws DataProcessingException {
         String query = "SELECT SUM(price) AS amount_price FROM users JOIN orders"
                 + " ON users.user_id = orders.user_id JOIN orders_items"
                 + " ON orders.order_id = orders_items.order_id JOIN items"
@@ -203,14 +206,15 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 return amountPrice;
             }
         } catch (SQLException e) {
-            logger.error("Can't count amount price from order with id " + orderId, e);
+            throw new DataProcessingException("Can't count amount price from order with id "
+                    + orderId + "\n" + e);
         }
 
         return amountPrice;
     }
 
     @Override
-    public List<Order> getAllOrdersForUser(User user) {
+    public List<Order> getAllOrdersForUser(User user) throws DataProcessingException {
 
         List<Order> orderList = new ArrayList<>();
         String getUsersOrdersQuery = "SELECT * FROM orders WHERE user_id = ?";
@@ -227,7 +231,8 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
                 orderList.add(order);
             }
         } catch (SQLException e) {
-            logger.error("Can't get user's orders with id " + user.getUserId(), e);
+            throw new DataProcessingException("Can't get user's orders with user id"
+                    + user.getUserId() + "\n" + e);
         }
 
         return orderList;
