@@ -171,13 +171,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
 
     @Override
     public void clear(Long bucketId) throws DataProcessingException {
-        String query = "DELETE FROM bucket_items WHERE bucket_id = ?;";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, bucketId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't clear bucket with id " + bucketId + "\n" + e);
-        }
+        deleteItemsFromBucket(bucketId);
     }
 }
 

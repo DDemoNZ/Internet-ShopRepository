@@ -67,6 +67,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkLogin(String login) throws DataProcessingException {
-        return userDao.getAll().stream().anyMatch(user -> user.getUserName().equals(login));
+        return userDao.login(login).isPresent();
     }
 }
