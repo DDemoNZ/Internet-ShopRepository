@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -112,8 +111,8 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public User create(User user) throws DataProcessingException {
-        String query = "INSERT INTO users (firstName, secondName, login, password, salt, token) " +
-                "VALUES (?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO users (firstName, secondName, login, password, salt, token) "
+                + "VALUES (?, ?, ?, ?, ?, ?);";
         Long userId = null;
         Set<Role> roleToUser = new HashSet<>();
         roleToUser.add(Role.of("USER"));
