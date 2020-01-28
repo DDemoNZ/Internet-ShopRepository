@@ -1,6 +1,7 @@
 package mate.academy.internetshop.model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class User {
@@ -75,6 +76,29 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(userName, user.userName)
+                && Objects.equals(password, user.password)
+                && Objects.equals(firstName, user.firstName)
+                && Objects.equals(secondName, user.secondName)
+                && Objects.equals(userId, user.userId)
+                && Objects.equals(token, user.token)
+                && Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, password, firstName, secondName, userId, token, roles);
     }
 
     @Override

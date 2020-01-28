@@ -29,7 +29,8 @@
         </ul>
         <h1 align="center"><b class="title">Let's create a new User!</b></h1>
         <div class="tables">
-        <form action="${pageContext.request.contextPath}/registration" method="post">
+            <div class="errorLogin" >${errorMsg}</div>
+            <form action="${pageContext.request.contextPath}/registration" method="post">
             <div class="container">
                 <h1>Register</h1>
                 <p>Please fill in this form to create an account.</p>

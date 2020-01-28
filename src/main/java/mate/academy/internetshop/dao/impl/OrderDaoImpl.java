@@ -6,11 +6,11 @@ import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.db.Storage;
-import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
 import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.model.User;
 
-@Dao
+//@Dao
 public class OrderDaoImpl implements OrderDao {
 
     @Override
@@ -50,5 +50,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getAll() {
         return Storage.orders;
+    }
+
+    @Override
+    public List<Order> getAllOrdersForUser(User user) {
+        return null;
     }
 }

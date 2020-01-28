@@ -2,6 +2,7 @@ package mate.academy.internetshop.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
 
@@ -14,6 +15,13 @@ public class Order {
         this.items = new ArrayList<>();
         this.allPrice = allPrice;
         this.userId = user.getUserId();
+    }
+
+    public Order(Long userId, Long orderId, List<Item> items, Double allPrice) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.items = items;
+        this.allPrice = allPrice;
     }
 
     public Double getAllPrice() {
@@ -46,6 +54,26 @@ public class Order {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Order order = (Order) o;
+        return Objects.equals(userId, order.userId)
+                && Objects.equals(orderId, order.orderId)
+                && Objects.equals(items, order.items)
+                && Objects.equals(allPrice, order.allPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, orderId, items, allPrice);
     }
 
     @Override

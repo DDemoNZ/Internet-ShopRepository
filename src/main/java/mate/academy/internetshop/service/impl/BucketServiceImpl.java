@@ -2,9 +2,10 @@ package mate.academy.internetshop.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import mate.academy.internetshop.dao.BucketDao;
-import mate.academy.internetshop.dao.ItemDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Bucket;
@@ -17,67 +18,63 @@ public class BucketServiceImpl implements BucketService {
     @Inject
     private static BucketDao bucketDao;
 
-    @Inject
-    private static ItemDao itemDao;
-
     @Override
-    public Bucket create(Bucket bucket) {
+    public Bucket create(Bucket bucket) throws DataProcessingException {
         return bucketDao.create(bucket);
     }
 
     @Override
-    public Bucket get(Long bucketId) {
+    public Bucket get(Long bucketId) throws DataProcessingException {
         return bucketDao.get(bucketId).orElseThrow(()
                 -> new NoSuchElementException("Can't find bucket with id " + bucketId));
     }
 
     @Override
-    public Bucket update(Bucket bucket) {
+    public Bucket update(Bucket bucket) throws DataProcessingException {
         return bucketDao.update(bucket);
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(Long id) throws DataProcessingException {
         return bucketDao.delete(id);
     }
 
     @Override
-    public void addItem(Bucket bucket, Item item) {
-        Bucket tempBucket = bucketDao.get(bucket.getBucketId()).get();
-        tempBucket.getItems().add(item);
-        bucketDao.update(tempBucket);
+    public void addItem(Bucket bucket, Item item) throws DataProcessingException {
+        bucket.getItems().add(item);
+        update(bucket);
     }
 
     @Override
-    public void deleteItem(Bucket bucket, Item item) {
-        Bucket tempBucket = bucketDao.get(bucket.getBucketId()).get();
-        List<Item> itemOfBucket = tempBucket.getItems();
-        itemOfBucket.remove(item);
-        bucketDao.update(tempBucket);
+    public void deleteItem(Bucket bucket, Item item) throws DataProcessingException {
+        bucket.getItems().remove(item);
+        update(bucket);
     }
 
     @Override
-    public void clear(Bucket bucket) {
-        Bucket tempBucket = bucketDao.get(bucket.getBucketId()).get();
-        tempBucket.getItems().clear();
-        bucketDao.update(tempBucket);
+    public void clear(Bucket bucket) throws DataProcessingException {
+        bucket.getItems().clear();
+        update(bucket);
     }
 
     @Override
-    public List<Item> getAllItems(Bucket bucket) {
+    public List<Item> getAllItems(Bucket bucket) throws DataProcessingException {
         return bucketDao.get(bucket.getBucketId()).get().getItems();
     }
 
     @Override
-    public List<Bucket> getAll() {
+    public List<Bucket> getAll() throws DataProcessingException {
         return bucketDao.getAll();
     }
 
     @Override
-    public Bucket getByUserId(Long userId) {
-        return getAll().stream()
+    public Bucket getByUserId(Long userId) throws DataProcessingException {
+        Optional<Bucket> bucket = getAll().stream()
                 .filter(b -> b.getUserId().equals(userId))
-                .findFirst()
-                .orElse(create(new Bucket(userId)));
+                .findFirst();
+        if (bucket.isPresent()) {
+            return bucket.get();
+        }
+        return create(new Bucket(userId));
     }
 }

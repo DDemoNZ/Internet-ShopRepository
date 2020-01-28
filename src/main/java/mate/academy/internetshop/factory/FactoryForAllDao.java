@@ -8,10 +8,10 @@ import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.dao.impl.BucketDaoImpl;
-import mate.academy.internetshop.dao.impl.OrderDaoImpl;
-import mate.academy.internetshop.dao.impl.UserDaoImpl;
+import mate.academy.internetshop.dao.jdbc.BucketDaoJdbcImpl;
 import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
+import mate.academy.internetshop.dao.jdbc.OrderDaoJdbsImpl;
+import mate.academy.internetshop.dao.jdbc.UserDaoJdbcImpl;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.OrderService;
@@ -48,7 +48,7 @@ public class FactoryForAllDao {
     }
 
     public static BucketDao getBucketDao() {
-        return bucketDao == null ? new BucketDaoImpl() : bucketDao;
+        return new BucketDaoJdbcImpl(connection);
     }
 
     public static ItemDao getItemDao() {
@@ -56,11 +56,11 @@ public class FactoryForAllDao {
     }
 
     public static OrderDao getOrderDao() {
-        return orderDao == null ? new OrderDaoImpl() : orderDao;
+        return new OrderDaoJdbsImpl(connection);
     }
 
     public static UserDao getUserDao() {
-        return userDao == null ? new UserDaoImpl() : userDao;
+        return new UserDaoJdbcImpl(connection);
     }
 
     public static BucketService getBucketService() {
