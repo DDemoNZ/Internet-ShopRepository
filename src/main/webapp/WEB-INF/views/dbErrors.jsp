@@ -27,7 +27,7 @@
     <hr>
     <li><a href="${pageContext.request.contextPath}/inject">INJECT BUTTON</a></li>
 </ul>
-<h1>DATA BASE ERROR</h1>
+<h1 class="dbErrors">DATA BASE ERROR</h1>
 <div class="dbErrors" >${errorMsg}</div>
 </body>
 </html>

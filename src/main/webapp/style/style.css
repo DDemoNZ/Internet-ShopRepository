@@ -204,4 +204,11 @@ div.dbErrors {
     align-content: center;
     padding-left: 30%;
     font-size: 40px;
+    text-align: center;
+}
+
+h1.dbErrors {
+    align-content: center;
+    padding-left: 50%;
+    padding-top: 20%;
 }

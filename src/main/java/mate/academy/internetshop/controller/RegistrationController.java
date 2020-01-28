@@ -14,6 +14,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import mate.academy.internetshop.util.HashUtil;
 import org.apache.log4j.Logger;
 
 public class RegistrationController extends HttpServlet {
@@ -33,16 +34,8 @@ public class RegistrationController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String username = req.getParameter("username");
-        User newUser = new User(username);
-
-        newUser.setPassword(req.getParameter("password"));
-        newUser.setFirstName(req.getParameter("first_name"));
-        newUser.setSecondName(req.getParameter("second_name"));
-        newUser.addRole(Role.of("USER"));
-
         try {
-            if (userService.checkLogin(username)) {
+            if (userService.checkLogin(req.getParameter("username"))) {
                 throw new AuthenticationException("Login is already exists");
             }
             if (!req.getParameter("password").equals(req.getParameter("password-repeat"))) {
@@ -53,6 +46,14 @@ public class RegistrationController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/registration.jsp").forward(req, resp);
             return;
         }
+
+        String username = req.getParameter("username");
+        User newUser = new User(username);
+        newUser.setSalt(HashUtil.getSalt());
+        newUser.setPassword(HashUtil.hashPassword(req.getParameter("password"), newUser.getSalt()));
+        newUser.setFirstName(req.getParameter("first_name"));
+        newUser.setSecondName(req.getParameter("second_name"));
+        newUser.addRole(Role.of("USER"));
 
         try {
             User user = userService.create(newUser);
