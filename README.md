@@ -11,7 +11,7 @@
 </ul>
 <hr>
 
-<h2><a href=#Description></a>Description</h2>
+<h2><a class="anchor" href=#Description></a>Description</h2>
 It's simple realization of the web-application - internet shop.
 It has simple UI which done by CSS and JSP pages(HTML, JSPTL).
 This project has authentic and authorization filter.
@@ -21,7 +21,7 @@ View layer with pages.
 <hr>
 
 
-<h2><a href="#Structure"></a>Project Structure</h2>
+<h2><a class="anchor" href="#Structure"></a>Project Structure</h2>
 <ul>
 <li>Java 11</li>
 <li>Maven 4.0.0</li>
@@ -34,7 +34,7 @@ View layer with pages.
 <hr>
 <br>
 
-<h2><a href=#Start></a>Start</h2>
+<h2><a class="anchor" href=#Start></a>Start</h2>
 <h5>1. Click "Inject" button. Or you can register two users and to do the next steps.
 <h5>2. Change admin role_id in table user_roles from 1 to 2.
 <h5>3. And after you can login as user with login - user and password - user.
@@ -42,7 +42,7 @@ View layer with pages.
 <hr>
 <br>
 
-<h2><a href="#forUser"></a>For user</h2>
+<h2><a class="anchor" href="#forUser"></a>For user</h2>
 <h5>User can watch item list</h5>
 <h5>Can add and delete items into his bucket</h5>
 <h5>Can create order from bucket with items</h5>
@@ -50,14 +50,14 @@ View layer with pages.
 <hr>
 <br>
 
-<h2><a href="#forAdmin"></a>For administrator</h2>
+<h2><a class="anchor" href="#forAdmin"></a>For administrator</h2>
 <h5>Can add/delete(manage) items into item list</h5>
 <h5>Can watch and manage users list</h5>
 <h5>Can watch and manage orders list</h5>
 <hr>
 <br>
 
-<h2><a href="#forDeveloper"></a>For developer</h2>
+<h2><a class="anchor" href="#forDeveloper"></a>For developer</h2>
 <h5>1. Open this project in IDE as Maven project</h5>
 <h5>2. Install and configure Tomcat</h5>
 <h5>3. Install and configure MySQL</h5>
@@ -71,5 +71,5 @@ View layer with pages.
 <h5>Change "BucketDao", "UserDao", "ItemDao", "OrderDao" in Factory from "JDBC impl" to "simple impl"</h5>
 <br>
 
-<h2>Author</h2>
+<h2><a class="anchor" href="#Author"></a>Author</h2>
 <h5><a href="https://github.com/DDemoNZ">Dmitrii Zinchuk</a></h5>
