@@ -1,3 +1,10 @@
+SET NAMES 'utf8';
+DROP DATABASE IF EXISTS internetshop;
+CREATE DATABASE IF NOT EXISTS internetshop
+    CHARACTER SET utf8
+    COLLATE utf8_general_ci;
+USE internetshop;
+
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) DEFAULT NULL,

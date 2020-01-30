@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> login(String username) {
-        return null;
+        return getByUsername(username);
     }
 
 }

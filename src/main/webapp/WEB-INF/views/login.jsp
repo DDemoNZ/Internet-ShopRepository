@@ -32,7 +32,7 @@
     <div class="errorLogin" >${errorMsg}</div>
     <form action="${pageContext.request.contextPath}/login" method="post">
         <div class="container">
-            <h1 align="center">Registration</h1>
+            <h1 align="center">Sign in</h1>
             <p align="center">Please fill in this form to sign in account.</p>
             <hr>
 
