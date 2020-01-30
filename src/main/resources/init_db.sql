@@ -3,10 +3,11 @@ CREATE TABLE `users` (
   `firstName` varchar(45) DEFAULT NULL,
   `secondName` varchar(45) DEFAULT NULL,
   `login` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` varbinary(255) NOT NULL,
+  `salt` varbinary(255) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8
 
 CREATE TABLE `items` (
   `item_id` int NOT NULL AUTO_INCREMENT,
