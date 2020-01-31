@@ -25,15 +25,13 @@ import org.apache.log4j.Logger;
 
 public class AuthorizationFilter implements Filter {
 
+    private static final Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
     @Inject
     private static UserService userService;
-
-    private static Logger logger = Logger.getLogger(AuthorizationFilter.class);
-
     private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         protectedUrls.put("/servlet/getAllUsers", ADMIN);
         protectedUrls.put("/servlet/getAllItems", ADMIN);
         protectedUrls.put("/servlet/deleteItem", ADMIN);
@@ -61,9 +59,8 @@ public class AuthorizationFilter implements Filter {
         }
 
         Long userId = (Long) httpServletRequest.getSession().getAttribute("user_id");
-        User user = null;
         try {
-            user = userService.get(userId);
+            User user = userService.get(userId);
             if (verifyRole(user, roleName)) {
                 processAuthenticated(filterChain, httpServletRequest, httpServletResponse);
                 return;
@@ -71,12 +68,12 @@ public class AuthorizationFilter implements Filter {
                 processDenied(httpServletRequest, httpServletResponse);
             }
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             httpServletRequest.setAttribute("errorMsg", e.getMessage());
             httpServletRequest.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp")
                     .forward(httpServletRequest, httpServletResponse);
         } catch (NoSuchElementException e) {
-            logger.error(e);
+            LOGGER.error(e);
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/logout");
         }
     }

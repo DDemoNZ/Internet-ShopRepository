@@ -26,7 +26,7 @@ public class AuthenticationFilter implements Filter {
     private static UserService userService;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -43,9 +43,8 @@ public class AuthenticationFilter implements Filter {
         }
         for (Cookie cookie : req.getCookies()) {
             if (cookie.getName().equals("MATE")) {
-                Optional<User> user = null;
                 try {
-                    user = userService.getByToken(cookie.getValue());
+                    Optional<User> user = userService.getByToken(cookie.getValue());
                     if (user.isPresent()) {
                         LOGGER.info("User " + user.get().getUserName() + " was authenticated");
                         filterChain.doFilter(servletRequest, servletResponse);

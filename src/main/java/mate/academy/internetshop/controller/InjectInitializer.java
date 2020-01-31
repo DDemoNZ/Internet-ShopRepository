@@ -8,16 +8,16 @@ import org.apache.log4j.Logger;
 
 public class InjectInitializer implements ServletContextListener {
 
-    private static final Logger logger = Logger.getLogger(InjectInitializer.class);
+    private static final Logger LOGGER = Logger.getLogger(InjectInitializer.class);
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         try {
-            logger.info("InjectInitializer start");
+            LOGGER.info("InjectInitializer start");
             Injector.injectDependency();
         } catch (IllegalAccessException e) {
-            logger.error("InjectInitializer can't start", e);
+            LOGGER.error("InjectInitializer can't start", e);
             throw new RuntimeException(e);
         }
     }

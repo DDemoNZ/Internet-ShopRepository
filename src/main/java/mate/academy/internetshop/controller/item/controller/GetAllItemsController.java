@@ -15,10 +15,9 @@ import org.apache.log4j.Logger;
 
 public class GetAllItemsController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(GetAllItemsController.class);
     @Inject
     private static ItemService itemService;
-
-    private static Logger logger = Logger.getLogger(GetAllItemsController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -28,7 +27,7 @@ public class GetAllItemsController extends HttpServlet {
         try {
             items = itemService.getAll();
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

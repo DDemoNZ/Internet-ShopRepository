@@ -26,7 +26,6 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
     public Order create(Order order) throws DataProcessingException {
 
         String query = "INSERT INTO internetshop.orders (user_id, amount_price) VALUES (?, ?);";
-        Long orderId = null;
 
         try (PreparedStatement statement = connection.prepareStatement(query,
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -35,12 +34,12 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             while (generatedKeys.next()) {
-                orderId = generatedKeys.getLong(1);
+                order.setOrderId(generatedKeys.getLong(1));
             }
-            order.setOrderId(orderId);
             addOrderItems(order, order.getItems());
         } catch (SQLException | DataProcessingException e) {
-            throw new DataProcessingException("Can't create order with id " + orderId + "\n" + e);
+            throw new DataProcessingException("Can't create order with id " + order.getOrderId()
+                    + "\n" + e);
         }
 
         return order;
@@ -191,7 +190,7 @@ public class OrderDaoJdbsImpl extends AbstractDao<Order> implements OrderDao {
         return orders;
     }
 
-    public Double getAmountPrice(Long orderId) throws DataProcessingException {
+    private Double getAmountPrice(Long orderId) throws DataProcessingException {
         String query = "SELECT SUM(price) AS amount_price FROM users JOIN orders"
                 + " ON users.user_id = orders.user_id JOIN orders_items"
                 + " ON orders.order_id = orders_items.order_id JOIN items"

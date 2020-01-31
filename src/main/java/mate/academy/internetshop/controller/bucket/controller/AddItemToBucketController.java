@@ -16,13 +16,11 @@ import org.apache.log4j.Logger;
 
 public class AddItemToBucketController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(AddItemToBucketController.class);
     @Inject
     private static BucketService bucketService;
-
     @Inject
     private static ItemService itemService;
-
-    private static Logger logger = Logger.getLogger(AddItemToBucketController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -36,7 +34,7 @@ public class AddItemToBucketController extends HttpServlet {
             Bucket bucket = bucketService.getByUserId(userId);
             bucketService.addItem(bucket, item);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

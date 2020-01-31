@@ -17,10 +17,9 @@ import org.apache.log4j.Logger;
 
 public class LoginController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class);
     @Inject
     private static UserService userService;
-
-    private static Logger logger = Logger.getLogger(LoginController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -47,7 +46,7 @@ public class LoginController extends HttpServlet {
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }
