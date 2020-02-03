@@ -54,7 +54,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             statement.setLong(1, bucketId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Bucket bucket = getBucketFromRS(resultSet);
+                Bucket bucket = getBucketFromResultSet(resultSet);
                 return Optional.of(bucket);
             }
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
         return Optional.empty();
     }
 
-    private Bucket getBucketFromRS(ResultSet resultSet) throws SQLException,
+    private Bucket getBucketFromResultSet(ResultSet resultSet) throws SQLException,
             DataProcessingException {
         long userId = resultSet.getLong("user_id");
         Bucket bucket = new Bucket(userId);
@@ -99,7 +99,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Bucket bucket = getBucketFromRS(resultSet);
+                Bucket bucket = getBucketFromResultSet(resultSet);
                 return Optional.of(bucket);
             }
 
