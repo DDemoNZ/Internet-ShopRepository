@@ -72,7 +72,8 @@ Administrator can:
 * It can be running with SQL or with Lists implementation
 * If you want change impl to list
 * Change "BucketDao", "UserDao", "ItemDao", "OrderDao" in Factory from "JDBC impl" to "simple impl":
-    * FROM:
+    * EXAMPLE
+    * CHANGE FROM:
         * public static BucketDao getBucketDao() { 
         * if (bucketDao == null) { 
             * bucketDao = new BucketDaoJdbcImpl(connection); } 
