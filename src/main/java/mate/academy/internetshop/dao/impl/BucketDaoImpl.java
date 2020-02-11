@@ -6,10 +6,10 @@ import java.util.stream.IntStream;
 
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.db.Storage;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.lib.IdGenerator;
 import mate.academy.internetshop.model.Bucket;
-import mate.academy.internetshop.model.Item;
 
 @Dao
 public class BucketDaoImpl implements BucketDao {
@@ -54,21 +54,7 @@ public class BucketDaoImpl implements BucketDao {
     }
 
     @Override
-    public void clear(Long bucketId) {
-    }
-
-    @Override
-    public void addItemToBucket(Long bucketId, Long itemId) {
-
-    }
-
-    @Override
-    public void deleteItemsFromBucket(Long bucketId) {
-
-    }
-
-    @Override
-    public List<Item> getItemsFromBucket(Long bucketId) {
-        return null;
+    public Optional<Bucket> getByUserId(Long userId) throws DataProcessingException {
+        return Storage.buckets.stream().filter(b -> b.getUserId().equals(userId)).findFirst();
     }
 }

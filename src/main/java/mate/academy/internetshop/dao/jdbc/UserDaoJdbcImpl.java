@@ -36,54 +36,29 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> getByUsername(String username) throws DataProcessingException {
-        String query = "SELECT * FROM users WHERE login = ?;";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                User user = getUserFromResultSet(resultSet);
-                return Optional.of(user);
-            }
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't get user by username(login) " + username
-                    + "\n" + e);
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<User> getByToken(String token) throws DataProcessingException {
         String query = "SELECT * FROM users WHERE token = ?;";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, token);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                User user = getUserFromResultSet(resultSet);
-                return Optional.of(user);
-            }
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't get user by token " + token + "\n" + e);
-        }
-        return Optional.empty();
+        return getUserByParam(query, token);
     }
 
     @Override
     public Optional<User> login(String username) throws DataProcessingException {
         String query = "SELECT * FROM users WHERE login = ?;";
+        return getUserByParam(query, username);
+    }
 
+    private Optional<User> getUserByParam(String query, String param)
+            throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, username);
+            statement.setString(1, param);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 User user = getUserFromResultSet(resultSet);
                 return Optional.of(user);
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get user with login " + username + "\n" + e);
+            throw new DataProcessingException("Can't get user with param " + param
+                    + "\n" + e);
         }
         return Optional.empty();
     }
@@ -114,9 +89,6 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         String query = "INSERT INTO users (firstName, secondName, login, password, salt, token) "
                 + "VALUES (?, ?, ?, ?, ?, ?);";
         Long userId = null;
-        Set<Role> roleToUser = new HashSet<>();
-        roleToUser.add(Role.of("USER"));
-        user.setRoles(roleToUser);
 
         try (PreparedStatement statement = connection.prepareStatement(query,
                 Statement.RETURN_GENERATED_KEYS)) {
@@ -137,7 +109,12 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
             Set<Role> roles = user.getRoles();
             for (Role role : roles) {
-                addRoleToUser(userId, role.getId());
+                if (role.getRoleName().equals(Role.RoleName.USER)) {
+                    addRoleToUser(userId, 1L);
+                }
+                if (role.getRoleName().equals(Role.RoleName.ADMIN)) {
+                    addRoleToUser(userId, 2L);
+                }
             }
             bucketService.create(new Bucket(user.getUserId()));
         } catch (SQLException e) {
@@ -149,11 +126,10 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     private void addRoleToUser(Long userId, Long roleId) throws DataProcessingException {
         String addRole = "INSERT INTO user_roles (user_id, role_id) VALUES (?, ?);";
-        roleId = 1L;
 
         try (PreparedStatement statement1 = connection.prepareStatement(addRole)) {
             statement1.setLong(1, userId);
-            statement1.setLong(2, roleId); //DEFAULT ROLE USER
+            statement1.setLong(2, roleId);
             statement1.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessingException("Can't add role to user with id "
@@ -168,7 +144,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 User user = getUserFromResultSet(resultSet);
 
                 Set<Role> roles = getUsersRoleByUserId(userId);

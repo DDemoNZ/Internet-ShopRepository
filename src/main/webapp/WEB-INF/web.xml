@@ -197,4 +197,13 @@
         <url-pattern>/inject</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Index</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.IndexController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Index</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
 </web-app>

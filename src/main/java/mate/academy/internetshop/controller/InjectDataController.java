@@ -15,10 +15,9 @@ import org.apache.log4j.Logger;
 
 public class InjectDataController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(InjectDataController.class);
     @Inject
     private static UserService userService;
-
-    private static Logger logger = Logger.getLogger(InjectDataController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,7 +29,7 @@ public class InjectDataController extends HttpServlet {
         try {
             userService.create(user);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }
@@ -42,7 +41,7 @@ public class InjectDataController extends HttpServlet {
         try {
             userService.create(admin);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

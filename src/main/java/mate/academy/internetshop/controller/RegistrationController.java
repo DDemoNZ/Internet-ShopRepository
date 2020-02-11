@@ -14,15 +14,13 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-import mate.academy.internetshop.util.HashUtil;
 import org.apache.log4j.Logger;
 
 public class RegistrationController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(ItemDaoJdbcImpl.class);
     @Inject
     private static UserService userService;
-
-    private static Logger logger = Logger.getLogger(ItemDaoJdbcImpl.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -59,7 +57,7 @@ public class RegistrationController extends HttpServlet {
             HttpSession session = req.getSession(true);
             session.setAttribute("user_id", user.getUserId());
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
             return;

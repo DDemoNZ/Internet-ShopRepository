@@ -18,16 +18,13 @@ import org.apache.log4j.Logger;
 
 public class DeleteItemsFromBucketController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(DeleteItemsFromBucketController.class);
     @Inject
     private static BucketService bucketService;
-
     @Inject
     private static ItemService itemService;
-
     @Inject
     private static UserService userService;
-
-    private static Logger logger = Logger.getLogger(DeleteItemsFromBucketController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,7 +39,7 @@ public class DeleteItemsFromBucketController extends HttpServlet {
             Item item = itemService.get(Long.valueOf(itemId));
             bucketService.deleteItem(bucket, item);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

@@ -5,7 +5,6 @@ body {
 
 a {
     color: dodgerblue;
-    /*text-align: center;*/
     font-size: 20px;
 }
 
@@ -17,7 +16,6 @@ ul {
     background-color: #f1f1f1;
     position: fixed;
     height: 100%;
-    /*overflow: auto;*/
 }
 
 li a {
@@ -90,7 +88,6 @@ input[type=text]:focus, input[type=password]:focus {
 
 hr {
     border: 1px solid #000000;
-    /*margin-bottom: 25px;*/
 }
 
 .registerbtn {
@@ -170,7 +167,6 @@ img.gendalf {
 }
 
 b.menu {
-
 }
 
 b.title {

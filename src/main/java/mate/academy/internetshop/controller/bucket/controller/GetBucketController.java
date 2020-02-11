@@ -10,18 +10,13 @@ import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.service.BucketService;
-import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class GetBucketController extends HttpServlet {
 
-    @Inject
-    private static UserService userService;
-
+    private static final Logger LOGGER = Logger.getLogger(GetBucketController.class);
     @Inject
     private static BucketService bucketService;
-
-    private static Logger logger = Logger.getLogger(GetBucketController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -32,7 +27,7 @@ public class GetBucketController extends HttpServlet {
             Bucket bucket = bucketService.getByUserId(userId);
             req.setAttribute("bucket", bucket);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

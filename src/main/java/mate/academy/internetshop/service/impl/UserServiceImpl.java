@@ -22,13 +22,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) throws DataProcessingException {
-        user.setToken(getToket());
+        user.setToken(getToken());
         user.setSalt(HashUtil.getSalt());
-        user.setPassword(HashUtil.hashPassword(user.getPassword(),  user.getSalt()));
+        user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
         return userDao.create(user);
     }
 
-    private String getToket() {
+    private String getToken() {
         return UUID.randomUUID().toString();
     }
 

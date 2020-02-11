@@ -13,10 +13,9 @@ import org.apache.log4j.Logger;
 
 public class DeleteItemsController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(DeleteItemsController.class);
     @Inject
     private static ItemService itemService;
-
-    private static Logger logger = Logger.getLogger(DeleteItemsController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,7 +25,7 @@ public class DeleteItemsController extends HttpServlet {
         try {
             itemService.delete(Long.valueOf(itemId));
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

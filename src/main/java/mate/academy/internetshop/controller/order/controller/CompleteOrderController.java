@@ -19,16 +19,13 @@ import org.apache.log4j.Logger;
 
 public class CompleteOrderController extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(CompleteOrderController.class);
     @Inject
     private static BucketService bucketService;
-
     @Inject
     private static UserService userService;
-
     @Inject
     private static OrderService orderService;
-
-    private static Logger logger = Logger.getLogger(CompleteOrderController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,7 +39,7 @@ public class CompleteOrderController extends HttpServlet {
             List<Item> items = bucket.getItems();
             orderService.completeOrder(items, user);
         } catch (DataProcessingException e) {
-            logger.error(e);
+            LOGGER.error(e);
             req.setAttribute("errorMsg", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/dbErrors.jsp").forward(req, resp);
         }

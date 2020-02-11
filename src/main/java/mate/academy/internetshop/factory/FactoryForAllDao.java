@@ -48,35 +48,59 @@ public class FactoryForAllDao {
     }
 
     public static BucketDao getBucketDao() {
-        return new BucketDaoJdbcImpl(connection);
+        if (bucketDao == null) {
+            bucketDao = new BucketDaoJdbcImpl(connection);
+        }
+        return bucketDao;
     }
 
     public static ItemDao getItemDao() {
-        return new ItemDaoJdbcImpl(connection);
+        if (itemDao == null) {
+            itemDao = new ItemDaoJdbcImpl(connection);
+        }
+        return itemDao;
     }
 
     public static OrderDao getOrderDao() {
-        return new OrderDaoJdbsImpl(connection);
+        if (orderDao == null) {
+            orderDao = new OrderDaoJdbsImpl(connection);
+        }
+        return orderDao;
     }
 
     public static UserDao getUserDao() {
-        return new UserDaoJdbcImpl(connection);
+        if (userDao == null) {
+            userDao = new UserDaoJdbcImpl(connection);
+        }
+        return userDao;
     }
 
     public static BucketService getBucketService() {
-        return bucketService == null ? new BucketServiceImpl() : bucketService;
+        if (bucketService == null) {
+            bucketService = new BucketServiceImpl();
+        }
+        return bucketService;
     }
 
     public static ItemService getItemService() {
-        return itemService == null ? new ItemServiceImpl() : itemService;
+        if (itemService == null) {
+            itemService = new ItemServiceImpl();
+        }
+        return itemService;
     }
 
     public static OrderService getOrderService() {
-        return orderService == null ? new OrderServiceImpl() : orderService;
+        if (orderService == null) {
+            orderService = new OrderServiceImpl();
+        }
+        return orderService;
     }
 
     public static UserService getUserService() {
-        return userService == null ? new UserServiceImpl() : userService;
+        if (userService == null) {
+            userService = new UserServiceImpl();
+        }
+        return userService;
     }
 
 }

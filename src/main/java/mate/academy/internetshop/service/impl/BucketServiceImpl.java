@@ -69,9 +69,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket getByUserId(Long userId) throws DataProcessingException {
-        Optional<Bucket> bucket = getAll().stream()
-                .filter(b -> b.getUserId().equals(userId))
-                .findFirst();
+        Optional<Bucket> bucket = bucketDao.getByUserId(userId);
         if (bucket.isPresent()) {
             return bucket.get();
         }
